@@ -6,4 +6,12 @@ Property of Litianlong Yao, Nikita Jain, Zhimin Tang.
 ## change ~~~
 
 ## change 2 ~~~
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> origin/master
+
+
+
+##!!!!!!!
+>>>>>>> Stashed changes
