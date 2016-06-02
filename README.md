@@ -5,10 +5,5 @@ Property of Litianlong Yao, Nikita Jain, Zhimin Tang.
 
 ## change ~~~
 
-
-
-<<<<<<< HEAD
-### Yao !
-=======
 ## change 2 ~~~
->>>>>>> origin/master
+
