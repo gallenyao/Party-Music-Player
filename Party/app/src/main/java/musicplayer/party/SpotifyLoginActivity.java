@@ -24,8 +24,6 @@ public class SpotifyLoginActivity extends Activity implements
 
     private static final String CLIENT_ID = "90aed54790a74dee92a61da9424b3ca3";
     private static final String REDIRECT_URI = "test1-musicplayer-login://callback/";
-    //private static final String CLIENT_ID = "a4a52898a23f48d6b87ba20ce1fffdb2";
-    //private static final String REDIRECT_URI = "musicplayer://callback/";
     private static final int REQUEST_CODE = 1337;
     private Player mPlayer;
 
@@ -54,7 +52,7 @@ public class SpotifyLoginActivity extends Activity implements
         if (requestCode == REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
-                Log.e("Access token 112", response.getAccessToken());
+                Log.e("Access token *****112", response.getAccessToken());
                 Toast.makeText(getApplicationContext(), response.getAccessToken(),Toast.LENGTH_LONG).show();
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
