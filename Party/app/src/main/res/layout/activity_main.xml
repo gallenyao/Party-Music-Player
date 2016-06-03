@@ -23,7 +23,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log in to Spotify"
+        android:text="Log in Spotify"
         android:id="@+id/loginBut"
         android:onClick="loginSpotify"
         android:layout_below="@+id/textView"
@@ -33,9 +33,9 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go Without Login"
+        android:text="Go Without log in Spotify"
         android:id="@+id/skipBut"
-        android:onClick="skipLogin"
+        android:onClick="loginSkip"
         android:layout_below="@+id/loginBut"
         android:layout_alignEnd="@+id/loginBut"
         android:layout_marginTop="78dp" />

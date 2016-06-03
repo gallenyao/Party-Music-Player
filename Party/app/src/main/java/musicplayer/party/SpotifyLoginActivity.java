@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -34,15 +35,16 @@ public class SpotifyLoginActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spotify_login);
-<<<<<<< Updated upstream
+
         /**
          * Get intent from MainActivity.
          */
+
         Intent intent = getIntent();
         /**
          * Get login status from MainActivity.
          */
-        Boolean loginStatus = intent.getBooleanExtra(MainActivity.LOGIN_DECISION, false);
+        Boolean loginStatus = intent.getBooleanExtra(MainActivity.MESSAGE_LOGIN_DECISION, false);
         if (loginStatus) {
             /**
              * Build authentication request and get response through login.
@@ -70,15 +72,14 @@ public class SpotifyLoginActivity extends Activity implements
             RelativeLayout layout = (RelativeLayout) findViewById(R.id.rL);
             layout.addView(textview);
         }
-=======
-//        Intent intent = getIntent();
+
+        // Intent intent = getIntent();
         AuthenticationRequest.Builder builder =
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{"user-read-private", "streaming"});
         AuthenticationRequest request = builder.build();
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
 
->>>>>>> Stashed changes
     }
 
     @Override
@@ -99,11 +100,10 @@ public class SpotifyLoginActivity extends Activity implements
                 /**
                  * Display received access token on the screen.
                  */
-                Toast.makeText(getApplicationContext(), response.getAccessToken(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), response.getAccessToken(), Toast.LENGTH_LONG).show();
             }
         }
     }
-
 
 
     @Override
