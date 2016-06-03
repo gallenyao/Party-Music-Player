@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
          */
         Intent intent = new Intent(this, SpotifyLoginActivity.class);
         DEFAULT_LOGIN_DECISION = true;
-        intent.putExtra(MESSAGE_LOGIN_DECISION, true);
+        intent.putExtra(MESSAGE_LOGIN_DECISION, DEFAULT_LOGIN_DECISION);
         startActivity(intent);
     }
 
