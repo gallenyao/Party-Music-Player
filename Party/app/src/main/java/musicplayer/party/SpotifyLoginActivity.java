@@ -34,6 +34,7 @@ public class SpotifyLoginActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spotify_login);
+<<<<<<< Updated upstream
         /**
          * Get intent from MainActivity.
          */
@@ -69,6 +70,15 @@ public class SpotifyLoginActivity extends Activity implements
             RelativeLayout layout = (RelativeLayout) findViewById(R.id.rL);
             layout.addView(textview);
         }
+=======
+//        Intent intent = getIntent();
+        AuthenticationRequest.Builder builder =
+                new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
+        builder.setScopes(new String[]{"user-read-private", "streaming"});
+        AuthenticationRequest request = builder.build();
+        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+
+>>>>>>> Stashed changes
     }
 
     @Override
