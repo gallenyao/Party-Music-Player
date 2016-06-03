@@ -25,8 +25,18 @@
         android:layout_height="wrap_content"
         android:text="Log in to Spotify"
         android:id="@+id/loginBut"
-        android:layout_marginTop="122dp"
-        android:layout_below="@+id/textView"
         android:onClick="loginSpotify"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="74dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go Without Login"
+        android:id="@+id/skipBut"
+        android:onClick="skipLogin"
+        android:layout_below="@+id/loginBut"
+        android:layout_alignEnd="@+id/loginBut"
+        android:layout_marginTop="78dp" />
 </RelativeLayout>

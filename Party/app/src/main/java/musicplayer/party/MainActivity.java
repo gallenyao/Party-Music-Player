@@ -1,15 +1,24 @@
 package musicplayer.party;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import android.view.View;
 
-
+/**
+ * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
+ * Name: MainActivity
+ * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
+ */
 public class MainActivity extends AppCompatActivity {
-
+    /**
+     * String that used to identify login status flag.
+     */
+    public final static String LOGIN_DECISION = "User_Login_Decision";
+    /**
+     * Flag that used to identify login status.
+     */
+    public static boolean DEFAULT_LOGIN_DECISION = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,15 +27,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Method to get access token from Spotify when click on "Login" button.
+     * Method to get access token from Spotify when click on "Login to Spotify" button.
      * @param view view
      */
     public void loginSpotify(View view){
+        /**
+         * Set new intent and send login status to SpotifyLoginActivity.
+         */
         Intent intent = new Intent(this, SpotifyLoginActivity.class);
+        DEFAULT_LOGIN_DECISION = true;
+        intent.putExtra(LOGIN_DECISION, DEFAULT_LOGIN_DECISION);
         startActivity(intent);
-
     }
 
-
-
+    /**
+     *  Method to skip logging in Spotify account and to enter the next steps when click on "Go without login" button.
+     * @param view view
+     */
+    public void skipLogin(View view){
+        /**
+         * Set new intent and do not send any status.
+         */
+        Intent intent = new Intent(this, SpotifyLoginActivity.class);
+        startActivity(intent);
+    }
 }
