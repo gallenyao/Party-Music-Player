@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
      * Flag that used to identify login status.
      */
     // public static boolean DEFAULT_LOGIN_DECISION = false;
-    private boolean DEFAULT_LOGIN_DECISION = false;
+    private boolean DEFAULT_LOGIN_DECISION = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
          * Set new intent and send login status to SpotifyLoginActivity.
          */
         Intent intent = new Intent(this, SpotifyLoginActivity.class);
-        DEFAULT_LOGIN_DECISION = true;
-        intent.putExtra(MESSAGE_LOGIN_DECISION, true);
+        intent.putExtra(MESSAGE_LOGIN_DECISION, DEFAULT_LOGIN_DECISION);
         startActivity(intent);
     }
 
