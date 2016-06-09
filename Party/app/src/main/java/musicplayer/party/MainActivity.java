@@ -14,13 +14,11 @@ public class MainActivity extends AppCompatActivity {
     /**
      * String that used to identify login status flag.
      */
-    public final static String MESSAGE_LOGIN_DECISION = "user_login_decision";
-
+    public final static String LOGIN_DECISION = "User_Login_Decision";
     /**
      * Flag that used to identify login status.
      */
-    // public static boolean DEFAULT_LOGIN_DECISION = false;
-    private boolean DEFAULT_LOGIN_DECISION = true;
+    public static boolean DEFAULT_LOGIN_DECISION = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,24 +28,23 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Method to get access token from Spotify when click on "Login to Spotify" button.
-     *
      * @param view view
      */
-    public void loginSpotify(View view) {
+    public void loginSpotify(View view){
         /**
          * Set new intent and send login status to SpotifyLoginActivity.
          */
         Intent intent = new Intent(this, SpotifyLoginActivity.class);
-        intent.putExtra(MESSAGE_LOGIN_DECISION, DEFAULT_LOGIN_DECISION);
+        DEFAULT_LOGIN_DECISION = true;
+        intent.putExtra(LOGIN_DECISION, DEFAULT_LOGIN_DECISION);
         startActivity(intent);
     }
 
     /**
-     * Method to skip logging in Spotify account and to enter the next steps when click on "Go without login" button.
-     *
+     *  Method to skip logging in Spotify account and to enter the next steps when click on "Go without login" button.
      * @param view view
      */
-    public void loginSkip(View view) {
+    public void skipLogin(View view){
         /**
          * Set new intent and do not send any status.
          */

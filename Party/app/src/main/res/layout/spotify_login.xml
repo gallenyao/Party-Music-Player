@@ -17,4 +17,13 @@
         android:layout_marginTop="88dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show My Preferences"
+        android:id="@+id/get_data"
+        android:onClick="getData"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
