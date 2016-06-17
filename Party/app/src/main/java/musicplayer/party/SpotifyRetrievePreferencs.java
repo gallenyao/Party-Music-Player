@@ -55,7 +55,7 @@ public class SpotifyRetrievePreferencs extends ActionBarActivity implements Resp
         /**
          * Set text to display that the activity will show preferences of user.
          * Set checkboxes that will be used to display top preferences of user.
-         * Set button that will be clicke dby user when he has done selecting preferences.
+         * Set button that will be clicked by user when he has done selecting preferences.
          */
         mTextView = (TextView) findViewById(R.id.preference_text);
         mButton = (Button) findViewById(R.id.done);
@@ -151,7 +151,7 @@ public class SpotifyRetrievePreferencs extends ActionBarActivity implements Resp
          * 1. Request method type i.e. a GEt ot a POST request type
          * 2. url to be called
          * 3. create new JSON object for retrieving data
-         * 4. some event listeneres
+         * 4. some event listeners
          */
         final CustomJSONObjectRequest jsonRequest = new CustomJSONObjectRequest(Request.Method
                 .GET, url,
@@ -169,7 +169,7 @@ public class SpotifyRetrievePreferencs extends ActionBarActivity implements Resp
     }
 
     /**
-     * If there is an error while retrieving response from Spotify API, diaply it on screen
+     * If there is an error while retrieving response from Spotify API, display it on screen.
      */
     @Override
     public void onErrorResponse(VolleyError error) {
@@ -205,7 +205,7 @@ public class SpotifyRetrievePreferencs extends ActionBarActivity implements Resp
          */
         if (y == 1){
             mTextView.setVisibility(View.VISIBLE);
-            mTextView.setText("You have no prefernces yet");
+            mTextView.setText("You have no preferences yet");
         }
 
         /**
