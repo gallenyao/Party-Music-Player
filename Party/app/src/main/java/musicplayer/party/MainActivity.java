@@ -4,6 +4,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
+import com.spotify.sdk.android.authentication.AuthenticationClient;
+import com.spotify.sdk.android.authentication.AuthenticationRequest;
+import com.spotify.sdk.android.authentication.AuthenticationResponse;
+
+import musicplayer.party.Helper.PartyConstant;
+import musicplayer.party.SpotifyService.InstructionActivity;
+import musicplayer.party.SpotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -11,14 +20,6 @@ import android.view.View;
  * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
  */
 public class MainActivity extends AppCompatActivity {
-    /**
-     * String that used to identify login status flag.
-     */
-    public final static String LOGIN_DECISION = "User_Login_Decision";
-    /**
-     * Flag that used to identify login status.
-     */
-    public static boolean DEFAULT_LOGIN_DECISION = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +32,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view view
      */
     public void loginSpotify(View view){
-        /**
-         * Set new intent and send login status to SpotifyLoginActivity.
-         */
-        Intent intent = new Intent(this, SpotifyLoginActivity.class);
-        DEFAULT_LOGIN_DECISION = true;
-        intent.putExtra(LOGIN_DECISION, DEFAULT_LOGIN_DECISION);
-        startActivity(intent);
+        login();
     }
 
     /**
@@ -48,7 +43,50 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Set new intent and do not send any status.
          */
-        Intent intent = new Intent(this, SpotifyLoginActivity.class);
-        startActivity(intent);
+        if (!UserProfile.DEFAULT_LOGIN_STATUS) {
+            Intent intent = new Intent(this, PartyHome.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(getApplicationContext(), "Already logged in", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private void login() {
+        /**
+         * Build authentication request and get response through login.
+         */
+        AuthenticationRequest.Builder builder =
+                new AuthenticationRequest.Builder(PartyConstant.CLIENT_ID, AuthenticationResponse.Type.TOKEN, PartyConstant.REDIRECT_URI);
+        builder.setScopes(new String[]{"user-read-private","user-top-read","playlist-modify-public", "playlist-modify-private"});
+        AuthenticationRequest request = builder.build();
+        AuthenticationClient.openLoginActivity(this, PartyConstant.REQUEST_CODE, request);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        try {
+            super.onActivityResult(requestCode, resultCode, intent);
+            /**
+             * Check if result comes from the correct activity.
+             */
+            if (requestCode == PartyConstant.REQUEST_CODE) {
+                AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
+                if (response.getType() == AuthenticationResponse.Type.TOKEN) {
+                    PartyConstant.Access_Token = response.getAccessToken();
+                    UserProfile.DEFAULT_LOGIN_STATUS = true;
+                    Toast.makeText(getApplicationContext(), "Log In Successful", Toast.LENGTH_LONG).show();
+                    /**
+                     * Set new intent and send login status to InstructionActivity.
+                     */
+                    Intent intentIns = new Intent(this, InstructionActivity.class);
+                    startActivity(intentIns);
+                } else {
+
+                }
+            }
+        } catch(Throwable e){
+            e.printStackTrace();
+        }
     }
 }

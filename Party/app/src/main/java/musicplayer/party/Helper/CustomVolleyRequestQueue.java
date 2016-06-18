@@ -1,4 +1,4 @@
-package musicplayer.party;
+package musicplayer.party.Helper;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.

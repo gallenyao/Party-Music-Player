@@ -7,23 +7,31 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:id="@+id/rL"
-    tools:context="musicplayer.party.SpotifyLoginActivity">
+    android:id="@+id/instruction"
+    tools:context=".SpotifyService.InstructionActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:layout_marginTop="88dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Show My Preferences"
         android:id="@+id/get_data"
-        android:onClick="getData"
+        android:onClick="getPreference"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/instruction"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/get_data"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="59dp"
+        android:textStyle="bold"
+        android:textColor="#1653e1"
+        android:textSize="25dp"
+        android:textIsSelectable="false"
+        android:gravity="center" />
 </RelativeLayout>

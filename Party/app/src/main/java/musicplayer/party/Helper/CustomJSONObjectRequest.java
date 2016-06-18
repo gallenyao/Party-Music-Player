@@ -8,18 +8,16 @@ package musicplayer.party;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import musicplayer.party.Helper.PartyConstant;
 
 public class CustomJSONObjectRequest extends JsonObjectRequest {
 
@@ -43,8 +41,8 @@ public class CustomJSONObjectRequest extends JsonObjectRequest {
 
         // Create a Hashmap for headers that would store the name and the corresponding values to be appended in the url
         HashMap<String, String> headers = new HashMap<String, String>();
-        Log.d(TAG,"Header:"+Variable.Access_Token);
-        headers.put("Authorization", "Bearer "+ Variable.Access_Token); // append the url to Spotify web API by adding this
+        Log.d(TAG,"Header:"+ PartyConstant.Access_Token);
+        headers.put("Authorization", "Bearer "+ PartyConstant.Access_Token); // append the url to Spotify web API by adding this
         headers.put("Content-Type", "application/json");
 
 

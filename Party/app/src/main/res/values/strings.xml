@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Party</string>
     <string name="title_activity_spotify_access">SpotifyAccess</string>
+    <string name="instruction">Select the preferences you want to share.</string>
 </resources>

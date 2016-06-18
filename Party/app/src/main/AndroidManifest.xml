@@ -17,16 +17,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SpotifyLoginActivity" />
+        <activity android:name=".SpotifyService.InstructionActivity" />
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".SpotifyRetrieveArtists" />
-        <activity android:name=".Home" />
-        <activity android:name=".SpotifyRetrieveTracks" />
-        <activity android:name=".Recommendation" />
-        <activity android:name=".CreatePlaylist" />
-        <activity android:name=".AddTracks"></activity>
+        <activity android:name=".SpotifyService.SpotifyRetrieveArtists" />
+        <activity android:name=".PartyHome" />
+        <activity android:name=".SpotifyService.SpotifyRetrieveTracks" />
+        <activity android:name=".Personalization.Recommendation" />
+        <activity android:name=".Personalization.CreatePlaylist" />
+        <activity android:name=".Personalization.AddTracks"></activity>
     </application>
 
 </manifest>

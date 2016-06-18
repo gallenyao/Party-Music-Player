@@ -1,4 +1,4 @@
-package musicplayer.party;
+package musicplayer.party.Personalization;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -16,11 +16,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import musicplayer.party.CustomJSONObjectRequest;
+import musicplayer.party.Helper.CustomVolleyRequestQueue;
+import musicplayer.party.Helper.PartyConstant;
+import musicplayer.party.R;
+import musicplayer.party.SpotifyService.SpotifyRetrieveArtists;
+import musicplayer.party.SpotifyService.SpotifyRetrieveTracks;
+
 public class Recommendation extends ActionBarActivity implements Response.Listener,
         Response.ErrorListener {
 
 
     public static final String REQUEST_TAG = "Recommendation";
+    public static int playlist_length;
     private RequestQueue mQueue;
     private TextView mTextView;
 
@@ -37,16 +45,17 @@ public class Recommendation extends ActionBarActivity implements Response.Listen
         super.onStart();
         mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
                 .getRequestQueue();
-        String url = "https://api.spotify.com/v1/recommendations?min_popularity=50&min_energy=0.4&market=US&seed_artists="; // Spotify web API url to be called to retrieve guest_artists_preferences
+        String url = "https://api.spotify.com/v1/recommendations?min_popularity=50&min_energy=0.4&market=US&seed_artists="; // Spotify web API url to be called to retrieve guestTracksPreferences
 
-        for(int i=0;i<2;i++)
-            url = url + Variable.guest_artists_preferences[i]+ ",";
+       // for(int i=0;i<1;i++)
+        Log.e("try123", SpotifyRetrieveArtists.guestArtistsPreferences[0]);
+            url = url + SpotifyRetrieveArtists.guestArtistsPreferences[0]+ ",";
 
         url = url.substring(0,url.length()-1);
         url = url + "&seed_tracks=";
 
         for(int i=0;i<2;i++)
-            url = url + Variable.guest_tracks_preferences[i]+ ",";
+            url = url + SpotifyRetrieveTracks.guestTracksPreferences[i]+ ",";
 
         url = url.substring(0,url.length()-1);
         Log.e("url1234455",url);
@@ -84,7 +93,7 @@ public class Recommendation extends ActionBarActivity implements Response.Listen
     public void onResponse(Object response) {
 
         JSONObject jsonresponse = (JSONObject)response; // store the JSONresponse retrieved from Spotify web API
-        int y=0; // flag that is set if the user has some guest_artists_preferences
+        int y=0; // flag that is set if the user has some guestTracksPreferences
 
         try {
             JSONArray items = jsonresponse.getJSONArray("tracks");
@@ -92,17 +101,17 @@ public class Recommendation extends ActionBarActivity implements Response.Listen
                 y=1;
             else
             {
-                for(int i=0;i< Variable.party_playlist_tracks.length;i++) {
-                    if (Variable.party_playlist_tracks[i] != null) {
-                        Variable.playlist_length++;
+                for(int i = 0; i< PartyConstant.partyPlaylistTracks.length; i++) {
+                    if (PartyConstant.partyPlaylistTracks[i] != null) {
+                        playlist_length++;
 
                     }
                 }
-                Log.e("#t",Variable.playlist_length + "jfdj");
+                Log.e("#t", playlist_length + "jfdj");
                 for (int i = 0; i < items.length(); i++) {
-                    Variable.party_playlist_tracks[i+Variable.playlist_length]= items.getJSONObject(i).getString("uri");
-                    Log.e("12345i", Variable.party_playlist_tracks[i+Variable.playlist_length]);
-                    mTextView.setText(Variable.party_playlist_tracks[i+Variable.playlist_length]);
+                    PartyConstant.partyPlaylistTracks[i+ playlist_length]= items.getJSONObject(i).getString("uri");
+                    Log.e("12345i", PartyConstant.partyPlaylistTracks[i+ playlist_length]);
+                    mTextView.setText(PartyConstant.partyPlaylistTracks[i+ playlist_length]);
                 }
             }
         } catch (JSONException e) {
