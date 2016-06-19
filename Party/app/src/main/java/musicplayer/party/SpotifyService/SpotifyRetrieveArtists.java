@@ -8,7 +8,6 @@ import android.view.View;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -37,15 +36,13 @@ public class SpotifyRetrieveArtists extends ActionBarActivity implements Respons
      * Set the variables for different UI components declared in activity_spotify_retrieve_artists file.
      */
     private static final String REQUEST_TAG = "SpotifyRetrieveArtists";
-    private static final int PREFERENCE_LENGTH = 5;
     private static final int CHECKBOX_NUMBER = 5;
-    public static String[] guestArtistsPreferences = new String[PREFERENCE_LENGTH]; // array to store guestTracksPreferences chosen by user for personalization
     private TextView mTextView;
     private Button mButton;
     private CheckBox[] checkBoxes = new CheckBox[CHECKBOX_NUMBER];
     private RequestQueue mQueue;
-    private String[] topArtistsName = new String[PREFERENCE_LENGTH]; // array to store top artists retrieved from Spotify web aPI
-    private String[] topArtistsID = new String[PREFERENCE_LENGTH];
+    private String[] topArtistsName = new String[UserProfile.PREFERENCE_LENGTH]; // array to store top artists retrieved from Spotify web aPI
+    private String[] topArtistsID = new String[UserProfile.PREFERENCE_LENGTH];
     private int selectedPrefCount = 0;
 
     @Override
@@ -170,7 +167,7 @@ public class SpotifyRetrieveArtists extends ActionBarActivity implements Respons
         for (int i = 0; i < 5; i++) {
             if(checkBoxes[i].isChecked())
             {
-                guestArtistsPreferences[selectedPrefCount]= topArtistsID[i];
+                UserProfile.guestArtistsPreferences[selectedPrefCount]= topArtistsID[i];
                 selectedPrefCount++;
             }
         }

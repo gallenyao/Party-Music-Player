@@ -1,8 +1,10 @@
 package musicplayer.party;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
+import musicplayer.party.Personalization.FilterPreferencesService;
 
 /*
  *Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -11,7 +13,7 @@ import android.util.Log;
  */
 
 /*
-   * A simple activity that shows home screen of Party application
+ * A simple activity that shows home screen of Party application
  */
 public class PartyHome extends AppCompatActivity {
 
@@ -20,5 +22,8 @@ public class PartyHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        Intent intent = new Intent(this, FilterPreferencesService.class);
+        startService(intent);
+        //startService(new Intent(PartyHome.this, FilterPreferencesService.class));
     }
 }

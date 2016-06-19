@@ -30,15 +30,13 @@ public class SpotifyRetrieveTracks extends ActionBarActivity implements Response
      * Set the variables for different UI components declared in activity_spotify_retrieve_artists file.
      */
     private static final String REQUEST_TAG = "SpotifyRetrieveTracks";
-    private static final int PREFERENCE_LENGTH = 5;
     private static final int CHECKBOX_NUMBER = 5;
-    public static String[] guestTracksPreferences = new String[PREFERENCE_LENGTH]; // array to store guestTracksPreferences chosen by user for personalization
     private TextView mTextView;
     private Button mButton;
     private CheckBox[] checkBoxes = new CheckBox[CHECKBOX_NUMBER];
     private RequestQueue mQueue;
-    private String[] topTracksName = new String[PREFERENCE_LENGTH]; // array to store top artists retrieved from Spotify web aPI
-    private String[] topTracksID = new String[PREFERENCE_LENGTH];
+    private String[] topTracksName = new String[UserProfile.PREFERENCE_LENGTH]; // array to store top artists retrieved from Spotify web aPI
+    private String[] topTracksID = new String[UserProfile.PREFERENCE_LENGTH];
     private int selectedPrefCount = 0;
 
     @Override
@@ -163,7 +161,7 @@ public class SpotifyRetrieveTracks extends ActionBarActivity implements Response
         for (int i = 0; i < 5; i++) {
             if(checkBoxes[i].isChecked())
             {
-                guestTracksPreferences[selectedPrefCount]= topTracksID[i];
+                UserProfile.guestTracksPreferences[selectedPrefCount]= topTracksID[i];
                 selectedPrefCount++;
             }
         }

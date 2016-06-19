@@ -20,8 +20,7 @@ import musicplayer.party.CustomJSONObjectRequest;
 import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.Helper.PartyConstant;
 import musicplayer.party.R;
-import musicplayer.party.SpotifyService.SpotifyRetrieveArtists;
-import musicplayer.party.SpotifyService.SpotifyRetrieveTracks;
+import musicplayer.party.SpotifyService.UserProfile;
 
 public class Recommendation extends ActionBarActivity implements Response.Listener,
         Response.ErrorListener {
@@ -48,14 +47,14 @@ public class Recommendation extends ActionBarActivity implements Response.Listen
         String url = "https://api.spotify.com/v1/recommendations?min_popularity=50&min_energy=0.4&market=US&seed_artists="; // Spotify web API url to be called to retrieve guestTracksPreferences
 
        // for(int i=0;i<1;i++)
-        Log.e("try123", SpotifyRetrieveArtists.guestArtistsPreferences[0]);
-            url = url + SpotifyRetrieveArtists.guestArtistsPreferences[0]+ ",";
+        Log.e("try123", UserProfile.guestArtistsPreferences[0]);
+            url = url + UserProfile.guestArtistsPreferences[0]+ ",";
 
         url = url.substring(0,url.length()-1);
         url = url + "&seed_tracks=";
 
         for(int i=0;i<2;i++)
-            url = url + SpotifyRetrieveTracks.guestTracksPreferences[i]+ ",";
+            url = url + UserProfile.guestTracksPreferences[i]+ ",";
 
         url = url.substring(0,url.length()-1);
         Log.e("url1234455",url);
