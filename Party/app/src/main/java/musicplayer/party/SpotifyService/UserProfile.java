@@ -1,8 +1,6 @@
 package musicplayer.party.SpotifyService;
 
-/**
- * Created by YLTL on 6/18/16.
- */
+
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
  * Name: UserProfile

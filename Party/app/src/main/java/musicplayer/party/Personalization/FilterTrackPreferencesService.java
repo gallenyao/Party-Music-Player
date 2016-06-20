@@ -19,9 +19,15 @@ import musicplayer.party.Helper.PersonalizationConstant;
 import musicplayer.party.SpotifyService.UserProfile;
 
 /**
- * Created by YLTL on 6/18/16.
+ * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
+ * Name: FilterTrackPerefrencesService
+ * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
+ * The java class is for filtering the user's tracks preferences based on personalization parameter.
  */
 public class FilterTrackPreferencesService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
+    /**
+     * Request queue that will be used to send request to Spotify.
+     */
     private RequestQueue mQueue;
     private int numberOfTracks;
     private static final String REQUEST_TAG = "FilterTrackPreferencesService";
@@ -37,15 +43,19 @@ public class FilterTrackPreferencesService extends Service implements Response.E
         mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
                 .getRequestQueue();
 
-        String url = "https://api.spotify.com/v1/audio-features/?ids="; // Spotify web API url to be called to retrieve guestTracksPreferences
+        String url = "https://api.spotify.com/v1/audio-features/?ids="; // Spotify web API url to be called to retrieve metadata about user preferred tracks
+
+        /**
+         * Traversing the guestTracksPreferences array and append the track IDs at the end of url to retrieve their metadata
+         */
         for(int i=0; i<UserProfile.guestTracksPreferences.length;i++){
             if(UserProfile.guestTracksPreferences[i]!=null){
                 url = url + UserProfile.guestTracksPreferences[i]+",";
-                numberOfTracks++;
+                numberOfTracks++; // counting the number of tracks in guestTracksPreferences array
             }
 
         }
-        url = url.substring(0,url.length()-1);
+        url = url.substring(0,url.length()-1); // appending the extra ',' at the end of url
 
         /**
          * Create a JSON Request using CustomJSONObject function that takes 4 parameters:-
@@ -80,18 +90,30 @@ public class FilterTrackPreferencesService extends Service implements Response.E
 
     @Override
     public void onResponse(JSONObject response) {
+        /**
+         * Store the  energy, danceability, valence, instrumentalness metadata about each track retrieved from Spotify response
+         */
         double energy, danceability, valence, instrumentalness;
         int count=0;
+        /**
+         * Store the JSON response retrieved from Spotify web API
+         */
         JSONObject jsonresponse = (JSONObject)response;
         try {
             JSONArray audio_features = jsonresponse.getJSONArray("audio_features");
-
+            /**
+             * Traverse the JSONArray audio_features to retrieve the metadata about tracks
+             */
             for(int i=0;i<numberOfTracks;i++){
                 energy = Double.parseDouble(audio_features.getJSONObject(i).getString("energy"));
                 danceability = Double.parseDouble(audio_features.getJSONObject(i).getString("danceability"));
                 valence = Double.parseDouble(audio_features.getJSONObject(i).getString("valence"));
                 instrumentalness = Double.parseDouble(audio_features.getJSONObject(i).getString("instrumentalness"));
 
+                /**
+                 * Determine if the track meets the track parameters specified in PersonalizationConstant class
+                 * If a track meets the criteria, add the track to the userPreferredTracks which will be sent to Host and used for personalization
+                 */
                 if (energy >= PersonalizationConstant.energy && danceability >= PersonalizationConstant.danceability && valence >= PersonalizationConstant.valence && instrumentalness >= PersonalizationConstant.instrumentalness){
                     PersonalizationConstant.userPreferredTracks[count]= audio_features.getJSONObject(i).getString("uri");
                     count++ ;
