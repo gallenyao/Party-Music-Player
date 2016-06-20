@@ -3,13 +3,30 @@ package musicplayer.party.SpotifyService;
 /**
  * Created by YLTL on 6/18/16.
  */
+/**
+ * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
+ * Name: UserProfile
+ * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
+ */
 public class UserProfile {
-    static final int PREFERENCE_LENGTH = 5;
-    public static String[] guestArtistsPreferences = new String[PREFERENCE_LENGTH]; // array to store guestTracksPreferences chosen by user for personalization
-    public static String[] guestTracksPreferences = new String[PREFERENCE_LENGTH]; // array to store guestTracksPreferences chosen by user for personalization
     /**
-     * Flag that used to identify login status.
+     * Variable to state the length of the guest preference array.
+     */
+    static final int PREFERENCE_LENGTH = 5;
+    /**
+     * A string array to store user preferred top artists that will be used in personalization.
+     */
+    public static String[] guestArtistsPreferences = new String[PREFERENCE_LENGTH];
+    /**
+     * A string array to store user preferred top tracks that will be used in personalization.
+     */
+    public static String[] guestTracksPreferences = new String[PREFERENCE_LENGTH];
+    /**
+     * A flag that used to identify login status.
      */
     public static boolean DEFAULT_LOGIN_STATUS = false;
+    /**
+     * String to store the userID.
+     */
     public String userID;
 }

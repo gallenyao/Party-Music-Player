@@ -24,6 +24,5 @@ public class PartyHome extends AppCompatActivity {
 
         Intent intent = new Intent(this, FilterPreferencesService.class);
         startService(intent);
-        //startService(new Intent(PartyHome.this, FilterPreferencesService.class));
     }
 }

@@ -18,6 +18,7 @@ import musicplayer.party.R;
  * Name: InstructionActivity
  * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
  */
+
 public class InstructionActivity extends Activity implements
         PlayerNotificationCallback, ConnectionStateCallback {
 
@@ -28,14 +29,10 @@ public class InstructionActivity extends Activity implements
 
     }
 
-
-//    @Override
-//    public void onBackPressed() {
-//        this.finish();
-//        startActivity(getIntent());
-//    }
-
-
+    /**
+     * Button to go to the next activity.
+     * @param view view
+     */
     public void getPreference(View view){
         Intent intent = new Intent(this, SpotifyRetrieveArtists.class);
         startActivity(intent);

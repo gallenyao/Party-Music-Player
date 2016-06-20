@@ -24,19 +24,57 @@ import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.PartyHome;
 import musicplayer.party.R;
 
+/**
+ * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
+ * Name: SpotifyRetrieveTracks
+ * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
+ * The java class is for retrieving user's top 5 tracks from Spotify.
+ */
 public class SpotifyRetrieveTracks extends ActionBarActivity implements Response.Listener,
         Response.ErrorListener {
     /**
      * Set the variables for different UI components declared in activity_spotify_retrieve_artists file.
      */
     private static final String REQUEST_TAG = "SpotifyRetrieveTracks";
+
+    /**
+     * The number of checkbox that will be used.
+     */
     private static final int CHECKBOX_NUMBER = 5;
+
+    /**
+     * Set textview for the activity.
+     */
     private TextView mTextView;
+
+    /**
+     * Set button for the activity.
+     */
     private Button mButton;
+
+    /**
+     * A checkbox array that provides checkbox for user interaction.
+     */
     private CheckBox[] checkBoxes = new CheckBox[CHECKBOX_NUMBER];
+
+    /**
+     * Request queue that will be used to send request to Spotify.
+     */
     private RequestQueue mQueue;
-    private String[] topTracksName = new String[UserProfile.PREFERENCE_LENGTH]; // array to store top artists retrieved from Spotify web aPI
+
+    /**
+     * A string array to store top track's names for the user, which are retrieved from Spotify API.
+     */
+    private String[] topTracksName = new String[UserProfile.PREFERENCE_LENGTH];
+
+    /**
+     * A string array to store top track's IDs for the user, which are retrieved from Spotify API.
+     */
     private String[] topTracksID = new String[UserProfile.PREFERENCE_LENGTH];
+
+    /**
+     * A counter to count the number of selected preference of the user.
+     */
     private int selectedPrefCount = 0;
 
     @Override
@@ -58,6 +96,9 @@ public class SpotifyRetrieveTracks extends ActionBarActivity implements Response
         checkBoxes[3] = (CheckBox) findViewById(R.id.checkBox4);
         checkBoxes[4] = (CheckBox) findViewById(R.id.checkBox5);
 
+        /**
+         * Set onclicklistener to every checkbox.
+         */
         for (int i = 0; i < 5; i++) {
             checkBoxes[i].setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -99,7 +140,7 @@ public class SpotifyRetrieveTracks extends ActionBarActivity implements Response
     }
 
     /**
-     * If there is an error while retrieving response from Spotify API, diaply it on screen
+     * If there is an error while retrieving response from Spotify API, display it on screen
      */
     @Override
     public void onErrorResponse(VolleyError error) {
@@ -108,11 +149,13 @@ public class SpotifyRetrieveTracks extends ActionBarActivity implements Response
 
     @Override
     public void onResponse(Object response) {
-
-        JSONObject jsonresponse = (JSONObject)response; // store the JSONresponse retrieved from Spotify web API
+        /**
+         * Store the JSON response retrieved from Spotify web API
+         */
+        JSONObject jsonresponse = (JSONObject)response;
         int count=0;
         /**
-         * Traverse the JSON object to retrieve the name of user's prefered tracks
+         * Traverse the JSON object to retrieve the name of user's preferred tracks.
          */
         try {
             JSONArray items = jsonresponse.getJSONArray("items");
@@ -155,9 +198,13 @@ public class SpotifyRetrieveTracks extends ActionBarActivity implements Response
     }
 
     /**
-     * When the user is done selecting guestTracksPreferences, go to PartyHome screen of app
+     * The button that user clicks on when finishing selecting preferred tracks.
+     * @param view view
      */
     public void home(View view) {
+        /**
+         * Store user's selected preference to the guestTracksPreference array.
+         */
         for (int i = 0; i < 5; i++) {
             if(checkBoxes[i].isChecked())
             {
@@ -165,6 +212,9 @@ public class SpotifyRetrieveTracks extends ActionBarActivity implements Response
                 selectedPrefCount++;
             }
         }
+        /**
+         * Go to next activity
+         */
         Intent intent = new Intent(this, PartyHome.class);
         startActivity(intent);
     }
