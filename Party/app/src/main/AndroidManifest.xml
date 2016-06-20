@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".Personalization.FilterPreferencesService" />
+        <service android:name=".Personalization.FilterTrackPreferencesService" />
+        <service android:name=".Personalization.FilterArtistPreferenceService" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

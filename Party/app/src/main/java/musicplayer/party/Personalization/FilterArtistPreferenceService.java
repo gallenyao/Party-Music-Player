@@ -3,8 +3,6 @@ package musicplayer.party.Personalization;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,16 +15,16 @@ import org.json.JSONObject;
 
 import musicplayer.party.CustomJSONObjectRequest;
 import musicplayer.party.Helper.CustomVolleyRequestQueue;
-import musicplayer.party.PartyHome;
+import musicplayer.party.Helper.PersonalizationConstant;
 import musicplayer.party.SpotifyService.UserProfile;
 
 /**
  * Created by YLTL on 6/18/16.
  */
-public class FilterPreferencesService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
+public class FilterArtistPreferenceService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
     private RequestQueue mQueue;
-    private int numberOfTracks;
-    private static final String REQUEST_TAG = "FilterPreferencesService";
+    private int numberOfArtists;
+    private static final String REQUEST_TAG = "FilterArtistPreferencesService";
 
     @Override
     public void onCreate() {
@@ -35,15 +33,15 @@ public class FilterPreferencesService extends Service implements Response.ErrorL
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e("999","akjdlawjnklvaw");
+
         mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
                 .getRequestQueue();
 
-        String url = "https://api.spotify.com/v1/audio-features/?ids="; // Spotify web API url to be called to retrieve guestTracksPreferences
-        for(int i=0; i<UserProfile.guestTracksPreferences.length;i++){
-            if(UserProfile.guestTracksPreferences[i]!=null){
-                url = url + UserProfile.guestTracksPreferences[i]+",";
-                numberOfTracks++;
+        String url = "https://api.spotify.com/v1/artists/?ids="; // Spotify web API url to be called to retrieve guestTracksPreferences
+        for(int i=0; i<UserProfile.guestArtistsPreferences.length;i++){
+            if(UserProfile.guestArtistsPreferences[i]!=null){
+                url = url + UserProfile.guestArtistsPreferences[i]+",";
+                numberOfArtists++;
             }
 
         }
@@ -70,8 +68,6 @@ public class FilterPreferencesService extends Service implements Response.ErrorL
 
     }
 
-
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -84,12 +80,18 @@ public class FilterPreferencesService extends Service implements Response.ErrorL
 
     @Override
     public void onResponse(JSONObject response) {
+
+        int count=0,popularity;
         JSONObject jsonresponse = (JSONObject)response;
         try {
-            JSONArray audio_features = jsonresponse.getJSONArray("audio_features");
-            for(int i=0;i<numberOfTracks;i++){
-                String energy = audio_features.getJSONObject(i).getString("energy");
-                Log.e("backg11122333",energy);
+            JSONArray artists = jsonresponse.getJSONArray("artists");
+
+            for(int i=0;i<numberOfArtists;i++){
+                popularity = Integer.parseInt(artists.getJSONObject(i).getString("popularity"));
+                if (popularity >= PersonalizationConstant.popularity) {
+                    PersonalizationConstant.userPreferredArtists[count]= artists.getJSONObject(i).getString("uri");
+                    count++ ;
+                }
             }
 
         } catch (JSONException e) {
