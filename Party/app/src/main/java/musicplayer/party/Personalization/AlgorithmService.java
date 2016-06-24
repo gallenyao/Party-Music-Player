@@ -24,7 +24,7 @@ import musicplayer.party.SpotifyService.UserProfile;
  * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
  * The java class is for filtering the user's tracks preferences based on personalization parameter.
  */
-public class FilterTrackPreferencesService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
+public class AlgorithmService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
     /**
      * Request queue that will be used to send request to Spotify.
      */
@@ -118,10 +118,6 @@ public class FilterTrackPreferencesService extends Service implements Response.E
                     UserProfile.userFilteredPreferredTracks[count]= audio_features.getJSONObject(i).getString("uri");
                     count++ ;
                 }
-            }
-
-            if(count==0){
-                UserProfile.userFilteredPreferredTracks[count]= UserProfile.guestTracksPreferences[0];
             }
 
         } catch (JSONException e) {

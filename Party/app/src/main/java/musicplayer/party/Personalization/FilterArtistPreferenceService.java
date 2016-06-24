@@ -109,9 +109,12 @@ public class FilterArtistPreferenceService extends Service implements Response.E
                  * If an artist meets the criteria, add the artist to the userPreferredArtist which will be sent to Host and used for personalization
                  */
                 if (popularity >= PersonalizationConstant.popularity) {
-                    PersonalizationConstant.userPreferredArtists[count]= artists.getJSONObject(i).getString("uri");
+                    UserProfile.userFilteredPreferredArtists[count]= artists.getJSONObject(i).getString("uri");
                     count++ ;
                 }
+            }
+            if(count==0){
+                UserProfile.userFilteredPreferredArtists[count]= UserProfile.guestArtistsPreferences[0];
             }
 
         } catch (JSONException e) {

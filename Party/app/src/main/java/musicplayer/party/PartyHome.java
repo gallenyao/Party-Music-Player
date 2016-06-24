@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import musicplayer.party.Personalization.FilterArtistPreferenceService;
+import musicplayer.party.Personalization.AlgorithmService;
 import musicplayer.party.Personalization.FilterTrackPreferencesService;
 
 /*
@@ -28,5 +29,8 @@ public class PartyHome extends AppCompatActivity {
 
         Intent artistFilterIntent = new Intent(this, FilterArtistPreferenceService.class);
         startService(artistFilterIntent);
+
+        Intent hostFilterIntent = new Intent(this, AlgorithmService.class);
+        startService(hostFilterIntent);
     }
 }

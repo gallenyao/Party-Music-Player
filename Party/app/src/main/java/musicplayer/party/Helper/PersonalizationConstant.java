@@ -4,18 +4,7 @@ package musicplayer.party.Helper;
  * Created by YLTL on 6/18/16.
  */
 public class PersonalizationConstant {
-    /**
-     * Variable to state the length of the user filtered preference array.
-     */
-    private static final int maxPref = 5;
-    /**
-     * A string array to store user filtered preferred top artists that will be used in personalization.
-     */
-    public static String[] userPreferredTracks = new String[maxPref];
-    /**
-     * A string array to store user filtered preferred top artists that will be used in personalization.
-     */
-    public static String[] userPreferredArtists = new String[maxPref];
+
     /**
      * Variable to state the danceability personalization parameter for track.
      */
