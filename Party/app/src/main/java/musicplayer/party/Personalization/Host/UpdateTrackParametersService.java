@@ -1,4 +1,4 @@
-package musicplayer.party.Personalization;
+package musicplayer.party.Personalization.Host;
 
 import android.app.Service;
 import android.content.Intent;
@@ -24,13 +24,13 @@ import musicplayer.party.SpotifyService.UserProfile;
  * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
  * The java class is for filtering the user's tracks preferences based on personalization parameter.
  */
-public class AlgorithmService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
+public class UpdateTrackParametersService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
     /**
      * Request queue that will be used to send request to Spotify.
      */
     private RequestQueue mQueue;
     private int numberOfTracks;
-    private static final String REQUEST_TAG = "FilterTrackPreferencesService";
+    private static final String REQUEST_TAG = "UpdateTrackParametersService";
 
     @Override
     public void onCreate() {
@@ -88,13 +88,15 @@ public class AlgorithmService extends Service implements Response.ErrorListener,
 
     }
 
+
     @Override
     public void onResponse(JSONObject response) {
         /**
          * Store the  energy, danceability, valence, instrumentalness metadata about each track retrieved from Spotify response
          */
-        double energy, danceability, valence, instrumentalness;
-        int count=0;
+        double sum_energy = 0, sum_danceability = 0, sum_valence = 0, sum_instrumentalness = 0;
+        double mean_energy=0, mean_danceability=0, mean_valence=0, mean_instrumentalness=0;
+
         /**
          * Store the JSON response retrieved from Spotify web API
          */
@@ -105,20 +107,21 @@ public class AlgorithmService extends Service implements Response.ErrorListener,
              * Traverse the JSONArray audio_features to retrieve the metadata about tracks
              */
             for(int i=0;i<numberOfTracks;i++){
-                energy = Double.parseDouble(audio_features.getJSONObject(i).getString("energy"));
-                danceability = Double.parseDouble(audio_features.getJSONObject(i).getString("danceability"));
-                valence = Double.parseDouble(audio_features.getJSONObject(i).getString("valence"));
-                instrumentalness = Double.parseDouble(audio_features.getJSONObject(i).getString("instrumentalness"));
-
-                /**
-                 * Determine if the track meets the track parameters specified in PersonalizationConstant class
-                 * If a track meets the criteria, add the track to the userFilteredPreferredTracks which will be sent to Host and used for personalization
-                 */
-                if (energy >= PersonalizationConstant.energy && danceability >= PersonalizationConstant.danceability && valence >= PersonalizationConstant.valence && instrumentalness >= PersonalizationConstant.instrumentalness){
-                    UserProfile.userFilteredPreferredTracks[count]= audio_features.getJSONObject(i).getString("uri");
-                    count++ ;
-                }
+                sum_energy += Double.parseDouble(audio_features.getJSONObject(i).getString("energy"));
+                sum_danceability += Double.parseDouble(audio_features.getJSONObject(i).getString("danceability"));
+                sum_valence += Double.parseDouble(audio_features.getJSONObject(i).getString("valence"));
+                sum_instrumentalness += Double.parseDouble(audio_features.getJSONObject(i).getString("instrumentalness"));
             }
+
+            mean_danceability = sum_danceability/numberOfTracks;
+            mean_energy = sum_energy/numberOfTracks;
+            mean_instrumentalness= sum_instrumentalness/numberOfTracks;
+            mean_valence = sum_valence/numberOfTracks;
+
+            PersonalizationConstant.danceability = mean_danceability;
+            PersonalizationConstant.energy = mean_energy;
+            PersonalizationConstant.instrumentalness = mean_instrumentalness;
+            PersonalizationConstant.valence = mean_valence;
 
         } catch (JSONException e) {
             e.printStackTrace();

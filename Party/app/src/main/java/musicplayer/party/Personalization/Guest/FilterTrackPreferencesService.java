@@ -1,4 +1,4 @@
-package musicplayer.party.Personalization;
+package musicplayer.party.Personalization.Guest;
 
 import android.app.Service;
 import android.content.Intent;
