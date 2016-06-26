@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
-import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
 import musicplayer.party.Helper.PartyConstant;
@@ -32,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
      * @param view view
      */
     public void loginSpotify(View view){
-        login();
+        SpotifyAssembly sa = new SpotifyAssembly();
+        sa.SpotifyLogin(this);
     }
 
     /**
@@ -52,16 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void login() {
-        /**
-         * Build authentication request and get response through login.
-         */
-        AuthenticationRequest.Builder builder =
-                new AuthenticationRequest.Builder(PartyConstant.CLIENT_ID, AuthenticationResponse.Type.TOKEN, PartyConstant.REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private","user-top-read","playlist-modify-public", "playlist-modify-private"});
-        AuthenticationRequest request = builder.build();
-        AuthenticationClient.openLoginActivity(this, PartyConstant.REQUEST_CODE, request);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -81,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
                      */
                     Intent intentIns = new Intent(this, InstructionActivity.class);
                     startActivity(intentIns);
-                } else {
-
                 }
             }
         } catch(Throwable e){

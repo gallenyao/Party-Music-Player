@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,8 +18,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import musicplayer.party.Helper.CustomJSONObjectRequest;
-import musicplayer.party.Helper.CustomVolleyRequestQueue;
+import musicplayer.party.SpotifyAssembly;
+import musicplayer.party.SpotifyMethodsImpl;
 import musicplayer.party.R;
 
 /**
@@ -111,22 +110,11 @@ public class SpotifyRetrieveArtists extends ActionBarActivity implements Respons
     @Override
     protected void onStart() {
         super.onStart();
-        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
-                .getRequestQueue();
-        String url = "https://api.spotify.com/v1/me/top/artists"; // Spotify web API url to be called to retrieve guestTracksPreferences
-
         /**
-         * Create a JSON Request using CustomJSONObject function that takes 4 parameters:-
-         * 1. Request method type selectedPrefCount.e. a GEt ot a POST request type
-         * 2. url to be called
-         * 3. create new JSON object for retrieving data
-         * 4. some event listeners
+         * ---------------------------------------------+++++++++++++++++++++++
          */
-        final CustomJSONObjectRequest jsonRequest = new CustomJSONObjectRequest(Request.Method
-                .GET, url,
-                new JSONObject(), this, this);
-        jsonRequest.setTag(REQUEST_TAG);
-        mQueue.add(jsonRequest); // add JSON request to the queue
+        SpotifyAssembly sa = new SpotifyAssembly();
+        sa.SpotifyRequestArtists(this.getApplicationContext(), this, this);
     }
 
     @Override
@@ -139,10 +127,6 @@ public class SpotifyRetrieveArtists extends ActionBarActivity implements Respons
 
     /**
      * If there is an error while retrieving response from Spotify API, display it on screen
-     */
-    /**
-     *
-     * @param error volley error
      */
     @Override
     public void onErrorResponse(VolleyError error) {
