@@ -8,14 +8,12 @@ import musicplayer.party.SpotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
- * Name: FilterTrackPerefrencesService
+ * Name: HostPersonalizationService
  * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
- * The java class is for filtering the user's tracks preferences based on personalization parameter.
+ * The java class is for start personalization on Host device for party.
  */
 public class HostPersonalizationService extends Service  {
-    /**
-     * Request queue that will be used to send request to Spotify.
-     */
+
     private int numberOfArtists;
     private int numberOfTracks;
 
@@ -37,15 +35,21 @@ public class HostPersonalizationService extends Service  {
 
         for(int i = 0; i< UserProfile.guestArtistsPreferences.length; i++){
             if(UserProfile.guestArtistsPreferences[i]!=null){
-                numberOfArtists++; // counting the number of tracks in guestTracksPreferences array
+                numberOfArtists++; // counting the number of artists in guestTracksPreferences array
             }
         }
 
+        /**
+         * If number of tracks is more than 5 then filter based on mean algorithm.
+         */
         if(numberOfTracks>5){
             Intent updateTrackParametersIntent = new Intent(this, UpdateTrackParametersService.class);
             startService(updateTrackParametersIntent);
         }
 
+        /**
+         * If number of artists is more than 5 then filter based on mean algorithm.
+         */
         if(numberOfArtists>5){
             Intent updateArtistParametersIntent = new Intent(this, UpdateArtistParametersService.class);
             startService(updateArtistParametersIntent);

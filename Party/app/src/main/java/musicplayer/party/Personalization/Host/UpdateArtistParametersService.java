@@ -20,9 +20,9 @@ import musicplayer.party.SpotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
- * Name: FilterArtistPerefrencesService
+ * Name: UpdateArtistParameterService
  * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
- * The java class is for filtering the user's artists preferences based on personalization parameter.
+ * The java class is for updating the tracks personalization parameter based on mean algorithm approach.
  */
 public class UpdateArtistParametersService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
     /**

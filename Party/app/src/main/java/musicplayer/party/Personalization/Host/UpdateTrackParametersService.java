@@ -20,9 +20,9 @@ import musicplayer.party.SpotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
- * Name: FilterTrackPerefrencesService
+ * Name: UpdateTrackParamteresService
  * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
- * The java class is for filtering the user's tracks preferences based on personalization parameter.
+ * The java class is for updating the track's personalization parameter.
  */
 public class UpdateTrackParametersService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
     /**

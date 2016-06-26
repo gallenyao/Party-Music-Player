@@ -1,8 +1,8 @@
 package musicplayer.party.Personalization;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -19,8 +19,8 @@ import org.json.JSONObject;
 import musicplayer.party.Helper.CustomJSONObjectRequest;
 import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.Helper.PartyConstant;
+import musicplayer.party.Helper.PersonalizationConstant;
 import musicplayer.party.R;
-import musicplayer.party.SpotifyService.UserProfile;
 
 public class Recommendation extends ActionBarActivity implements Response.Listener,
         Response.ErrorListener {
@@ -44,20 +44,20 @@ public class Recommendation extends ActionBarActivity implements Response.Listen
         super.onStart();
         mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
                 .getRequestQueue();
-        String url = "https://api.spotify.com/v1/recommendations?min_popularity=50&min_energy=0.4&market=US&seed_artists="; // Spotify web API url to be called to retrieve guestTracksPreferences
+        String url = "https://api.spotify.com/v1/recommendations?min_popularity=" + PersonalizationConstant.popularity + "&min_energy=" + PersonalizationConstant.energy +
+                "&market=US&seed_artists="; // Spotify web API url to be called to retrieve guestTracksPreferences
 
-       // for(int i=0;i<1;i++)
-        Log.e("try123", UserProfile.guestArtistsPreferences[0]);
-            url = url + UserProfile.guestArtistsPreferences[0]+ ",";
+        for(int i = 0; i< PersonalizationConstant.artistIDs.size(); i++)
+           url = url + PersonalizationConstant.artistIDs.get(i)+ ",";
 
         url = url.substring(0,url.length()-1);
         url = url + "&seed_tracks=";
 
-        for(int i=0;i<2;i++)
-            url = url + UserProfile.guestTracksPreferences[i]+ ",";
+        for(int i=0;i<PersonalizationConstant.trackIDs.size();i++)
+            url = url + PersonalizationConstant.trackIDs.get(i)+ ",";
 
         url = url.substring(0,url.length()-1);
-        Log.e("url1234455",url);
+
         /**
          * Create a JSON Request using CustomJSONObject function that takes 4 parameters:-
          * 1. Request method type i.e. a GEt ot a POST request type
@@ -100,17 +100,16 @@ public class Recommendation extends ActionBarActivity implements Response.Listen
                 y=1;
             else
             {
-                for(int i = 0; i< PartyConstant.partyPlaylistTracks.length; i++) {
-                    if (PartyConstant.partyPlaylistTracks[i] != null) {
+                for(int i = 0; i< PartyConstant.partyPlaylistTracks.size(); i++) {
+                    if (PartyConstant.partyPlaylistTracks.get(i) != null) {
                         playlist_length++;
 
                     }
                 }
                 Log.e("#t", playlist_length + "jfdj");
                 for (int i = 0; i < items.length(); i++) {
-                    PartyConstant.partyPlaylistTracks[i+ playlist_length]= items.getJSONObject(i).getString("uri");
-                    Log.e("12345i", PartyConstant.partyPlaylistTracks[i+ playlist_length]);
-                    mTextView.setText(PartyConstant.partyPlaylistTracks[i+ playlist_length]);
+                    PartyConstant.partyPlaylistTracks.set(i + playlist_length, items.getJSONObject(i).getString("uri"));
+                    mTextView.setText(PartyConstant.partyPlaylistTracks.get(i + playlist_length));
                 }
             }
         } catch (JSONException e) {

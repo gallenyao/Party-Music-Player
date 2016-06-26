@@ -43,8 +43,7 @@ public class CreatePlaylist extends ActionBarActivity implements Response.Listen
         mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
                 .getRequestQueue();
         String url = "https://api.spotify.com/v1/users/anuragkanungo/playlists" ; // Spotify web API url to be called to retrieve guestTracksPreferences
-        //JSONObject postdata = new JSONObject();
-       // postdata.put("")
+
         JSONObject params = new JSONObject();
         try {
             params.put("name","Party Playlist");
