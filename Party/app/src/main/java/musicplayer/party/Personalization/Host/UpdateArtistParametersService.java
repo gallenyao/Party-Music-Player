@@ -1,4 +1,4 @@
-package musicplayer.party.Personalization;
+package musicplayer.party.Personalization.Host;
 
 import android.app.Service;
 import android.content.Intent;
@@ -20,17 +20,17 @@ import musicplayer.party.SpotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
- * Name: FilterArtistPerefrencesService
+ * Name: UpdateArtistParameterService
  * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
- * The java class is for filtering the user's artists preferences based on personalization parameter.
+ * The java class is for updating the tracks personalization parameter based on mean algorithm approach.
  */
-public class FilterArtistPreferenceService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
+public class UpdateArtistParametersService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
     /**
      * Request queue that will be used to send request to Spotify.
      */
     private RequestQueue mQueue;
     private int numberOfArtists;
-    private static final String REQUEST_TAG = "FilterArtistPreferencesService";
+    private static final String REQUEST_TAG = "UpdateArtistParametersService";
 
     @Override
     public void onCreate() {
@@ -91,7 +91,7 @@ public class FilterArtistPreferenceService extends Service implements Response.E
     @Override
     public void onResponse(JSONObject response) {
 
-        int count=0,popularity; // stores the popularity metadata about each artist retrieved from Spotify response
+        int count=0,sum_popularity=0, mean_popularity; // stores the popularity metadata about each artist retrieved from Spotify response
         /**
          * Store the JSON response retrieved from Spotify web API
          */
@@ -103,16 +103,10 @@ public class FilterArtistPreferenceService extends Service implements Response.E
              * Traverse the JSONArray artists to retrieve the metadata about artists
              */
             for(int i=0;i<numberOfArtists;i++){
-                popularity = Integer.parseInt(artists.getJSONObject(i).getString("popularity"));
-                /**
-                 * Determine if the artist meets specified popularity in PersonalizationConstant class
-                 * If an artist meets the criteria, add the artist to the userPreferredArtist which will be sent to Host and used for personalization
-                 */
-                if (popularity >= PersonalizationConstant.popularity) {
-                    PersonalizationConstant.userPreferredArtists[count]= artists.getJSONObject(i).getString("uri");
-                    count++ ;
-                }
+                sum_popularity += Integer.parseInt(artists.getJSONObject(i).getString("popularity"));
             }
+            mean_popularity = sum_popularity/numberOfArtists;
+            PersonalizationConstant.popularity = mean_popularity;
 
         } catch (JSONException e) {
             e.printStackTrace();

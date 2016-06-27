@@ -44,10 +44,8 @@ public class AddTracks extends ActionBarActivity implements Response.Listener,
         String url = "https://api.spotify.com/v1/users/anuragkanungo/playlists"+ "/" + PartyConstant.partyPlaylistID + "/tracks?uris=" ; // Spotify web API url to be called to retrieve guestTracksPreferences
 
         for (int i=0;i<10;i++)
-            url = url + PartyConstant.partyPlaylistTracks[i] + ",";
+            url = url + PartyConstant.partyPlaylistTracks.get(i) + ",";
         url = url.substring(0,url.length()-1);
-
-   //     String url = "https://api.spotify.com/v1/users/anuragkanungo/playlists/6ZP3uENS7GfvTzb7vR9xFs/tracks?uris=spotify%3Atrack%3A1ruNslbgoiZk8e1vP0lY6j,spotify%3Atrack%3A3KgIZWuC7JJOgkcGeAWbZg,spotify%3Atrack%3A487OPlneJNni3NWC8SYqhW,spotify%3Atrack%3A0TkwJ7TLLnnckRL3PkdPsU,spotify%3Atrack%3A3u1Er1rkjn1oSz1xdZH3ZD,spotify%3Atrack%3A7i9763l5SSfOnqZ35VOcfy,spotify%3Atrack%3A6yuDA4JVS99KXSgjfniAnR,spotify%3Atrack%3A2Q4OrJV7rGtUpPsLGbchgr,spotify%3Atrack%3A3Oiauiojgokw9vWQvFmEoI,spotify%3Atrack%3A2U8g9wVcUu9wsg6i7sFSv8";
 
         /**
          * Create a JSON Request using CustomJSONObject function that takes 4 parameters:-

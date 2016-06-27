@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import musicplayer.party.Personalization.FilterArtistPreferenceService;
-import musicplayer.party.Personalization.FilterTrackPreferencesService;
+import musicplayer.party.Personalization.Guest.FilterArtistPreferenceService;
+import musicplayer.party.Personalization.Guest.FilterTrackPreferencesService;
+import musicplayer.party.Personalization.Host.HostPersonalizationService;
 
 /*
  *Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -28,5 +29,8 @@ public class PartyHome extends AppCompatActivity {
 
         Intent artistFilterIntent = new Intent(this, FilterArtistPreferenceService.class);
         startService(artistFilterIntent);
+
+        Intent hostPersonalizationIntent = new Intent(this, HostPersonalizationService.class);
+        startService(hostPersonalizationIntent);
     }
 }

@@ -1,21 +1,13 @@
 package musicplayer.party.Helper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by YLTL on 6/18/16.
  */
 public class PersonalizationConstant {
-    /**
-     * Variable to state the length of the user filtered preference array.
-     */
-    private static final int maxPref = 5;
-    /**
-     * A string array to store user filtered preferred top artists that will be used in personalization.
-     */
-    public static String[] userPreferredTracks = new String[maxPref];
-    /**
-     * A string array to store user filtered preferred top artists that will be used in personalization.
-     */
-    public static String[] userPreferredArtists = new String[maxPref];
+
     /**
      * Variable to state the danceability personalization parameter for track.
      */
@@ -37,4 +29,12 @@ public class PersonalizationConstant {
      */
     public static int popularity = 80;
 
+    /**
+     * String array to store track IDs for Recommendation API.
+     */
+    public static List<String> trackIDs = new ArrayList<String>();
+    /**
+     * String array to store artist IDs for Recommendation API.
+     */
+    public static List<String> artistIDs = new ArrayList<String>();
 }

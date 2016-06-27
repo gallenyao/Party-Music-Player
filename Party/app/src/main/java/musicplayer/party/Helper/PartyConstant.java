@@ -1,5 +1,8 @@
 package musicplayer.party.Helper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by YLTL on 6/18/16.
  */
@@ -22,5 +25,5 @@ public class PartyConstant {
     /**
      * String array to store track IDs for common playlist.
      */
-    public static String[] partyPlaylistTracks = new String[40];
+    public static List<String> partyPlaylistTracks = new ArrayList<String>();
 }
