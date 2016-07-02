@@ -39,7 +39,6 @@ public class SpotifyRetrieveUserInfoService extends Service implements Response.
 
         String url = "https://api.spotify.com/v1/me"; // Spotify web API url to be called to retrieve metadata about user preferred artist
 
-        url = url.substring(0,url.length()-1);
 
         /**
          * Create a JSON Request using CustomJSONObject function that takes 4 parameters:-
@@ -80,7 +79,7 @@ public class SpotifyRetrieveUserInfoService extends Service implements Response.
 
             String  id = jsonresponse.getString("id");
             UserProfile.userID = id;
-            Log.e("userid",id);
+            Log.e("userid1234",id);
 
             if(PartyConstant.partyPlaylistID == null) {
                 Intent createPlaylistIntent = new Intent(this, CreatePlaylistService.class);

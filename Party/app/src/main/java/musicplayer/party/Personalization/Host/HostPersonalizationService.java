@@ -75,10 +75,13 @@ public class HostPersonalizationService extends Service  {
          * create playlist on SPotify if not created
          */
 
+        Log.e("userid1234567",UserProfile.userID+"i");
+
         if(UserProfile.userID == null) {
+
             Intent retrieveUserInfoIntent = new Intent(this, SpotifyRetrieveUserInfoService.class);
             startService(retrieveUserInfoIntent);
-        }
+       }
 
 
         return START_STICKY;
