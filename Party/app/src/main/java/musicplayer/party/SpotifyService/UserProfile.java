@@ -27,5 +27,5 @@ public class UserProfile {
     /**
      * String to store the userID.
      */
-    public String userID;
+    public static String userID;
 }

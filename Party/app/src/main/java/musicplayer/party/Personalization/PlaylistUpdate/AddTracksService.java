@@ -1,9 +1,9 @@
 package musicplayer.party.Personalization.PlaylistUpdate;
 
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,32 +16,25 @@ import org.json.JSONObject;
 import musicplayer.party.Helper.CustomJSONObjectRequest;
 import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.Helper.PartyConstant;
-import musicplayer.party.R;
+import musicplayer.party.SpotifyService.UserProfile;
 
-public class AddTracks extends ActionBarActivity implements Response.Listener,
-        Response.ErrorListener {
+public class AddTracksService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
 
 
-    public static final String REQUEST_TAG = "CreatePlaylist";
+    public static final String REQUEST_TAG = "AddTracksService";
     private RequestQueue mQueue;
-    private TextView mTextView;
-
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_tracks);
-        mTextView = (TextView) findViewById(R.id.error);
+    public void onCreate() {
 
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
         mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
                 .getRequestQueue();
-        String url = "https://api.spotify.com/v1/users/anuragkanungo/playlists"+ "/" + PartyConstant.partyPlaylistID + "/tracks?uris=" ; // Spotify web API url to be called to retrieve guestTracksPreferences
+        String url = "https://api.spotify.com/v1/users/"+ UserProfile.userID +"/playlists"+ "/" + PartyConstant.partyPlaylistID + "/tracks?uris=" ; // Spotify web API url to be called to retrieve guestTracksPreferences
 
         for (int i=0;i<10;i++)
             url = url + PartyConstant.partyPlaylistTracks.get(i) + ",";
@@ -60,37 +53,36 @@ public class AddTracks extends ActionBarActivity implements Response.Listener,
 
         jsonRequest.setTag(REQUEST_TAG);
         mQueue.add(jsonRequest); // add JSON request to the queue
+
+
+         return START_STICKY;
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mQueue != null) {
-            mQueue.cancelAll(REQUEST_TAG);
-        }
-    }
-
-    /**
-     * If there is an error while retrieving response from Spotify API, diaply it on screen
-     */
     @Override
     public void onErrorResponse(VolleyError error) {
-        mTextView.setText(error.getMessage());
+
     }
 
     @Override
-    public void onResponse(Object response) {
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
 
         JSONObject jsonresponse = (JSONObject)response; // store the JSONresponse retrieved from Spotify web API
         int y=0; // flag that is set if the user has some guestTracksPreferences
 
         try {
             String  id = jsonresponse.getString("snapshot_id");
-            Log.e("hello","test");
             Log.e("last123", id);
-            mTextView.setText(id);
 
-            Log.e("last123", id);
         } catch (JSONException e) {
             e.printStackTrace();
         }

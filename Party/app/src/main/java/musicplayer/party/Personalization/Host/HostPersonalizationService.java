@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import musicplayer.party.SpotifyService.SpotifyRetrieveUserInfoService;
 import musicplayer.party.SpotifyService.UserProfile;
 
 /**
@@ -68,6 +69,15 @@ public class HostPersonalizationService extends Service  {
             Intent updateArtistParametersIntent = new Intent(this, UpdateArtistParametersService.class);
             startService(updateArtistParametersIntent);
             Log.e("starting artist ", "host service");
+        }
+
+        /**
+         * create playlist on SPotify if not created
+         */
+
+        if(UserProfile.userID == null) {
+            Intent retrieveUserInfoIntent = new Intent(this, SpotifyRetrieveUserInfoService.class);
+            startService(retrieveUserInfoIntent);
         }
 
 
