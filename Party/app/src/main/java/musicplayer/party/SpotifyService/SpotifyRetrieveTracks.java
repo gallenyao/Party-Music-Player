@@ -2,15 +2,13 @@ package musicplayer.party.SpotifyService;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-
-import android.support.v7.app.ActionBarActivity;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,12 +17,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import musicplayer.party.Helper.CustomJSONObjectRequest;
-import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.PartyHome;
 import musicplayer.party.R;
 import musicplayer.party.SpotifyAssembly;
-import musicplayer.party.SpotifyMethodsImpl;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -198,6 +193,8 @@ public class SpotifyRetrieveTracks extends ActionBarActivity implements Response
             {
                 UserProfile.guestTracksPreferences[selectedPrefCount]= topTracksID[i];
                 selectedPrefCount++;
+                Log.e("selectednumtr","i"+selectedPrefCount);
+
             }
         }
         /**

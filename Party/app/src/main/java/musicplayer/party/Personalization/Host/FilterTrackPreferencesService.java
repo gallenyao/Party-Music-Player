@@ -1,8 +1,9 @@
-package musicplayer.party.Personalization.Guest;
+package musicplayer.party.Personalization.Host;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,6 +41,7 @@ public class FilterTrackPreferencesService extends Service implements Response.E
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        Log.e("Entered filter","track service");
         mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
                 .getRequestQueue();
 
@@ -52,6 +54,7 @@ public class FilterTrackPreferencesService extends Service implements Response.E
             if(UserProfile.guestTracksPreferences[i]!=null){
                 url = url + UserProfile.guestTracksPreferences[i]+",";
                 numberOfTracks++; // counting the number of tracks in guestTracksPreferences array
+                Log.e("numofttracks","i"+numberOfTracks);
             }
 
         }
@@ -94,7 +97,8 @@ public class FilterTrackPreferencesService extends Service implements Response.E
          * Store the  energy, danceability, valence, instrumentalness metadata about each track retrieved from Spotify response
          */
         double energy, danceability, valence, instrumentalness;
-        int count=0;
+        int count =0;
+
         /**
          * Store the JSON response retrieved from Spotify web API
          */
@@ -115,14 +119,16 @@ public class FilterTrackPreferencesService extends Service implements Response.E
                  * If a track meets the criteria, add the track to the userFilteredPreferredTracks which will be sent to Host and used for personalization
                  */
                 if (energy >= PersonalizationConstant.energy && danceability >= PersonalizationConstant.danceability && valence >= PersonalizationConstant.valence && instrumentalness >= PersonalizationConstant.instrumentalness){
-                    UserProfile.userFilteredPreferredTracks[count]= audio_features.getJSONObject(i).getString("uri");
-                    count++ ;
+                    PersonalizationConstant.trackIDs.add(audio_features.getJSONObject(i).getString("uri"));
+                    Log.e("track id size",PersonalizationConstant.trackIDs.size()+"i");
                 }
             }
 
-            if(count==0){
-                UserProfile.userFilteredPreferredTracks[count]= UserProfile.guestTracksPreferences[0];
+            if(PersonalizationConstant.trackIDs.size()==0){
+                PersonalizationConstant.trackIDs.add(UserProfile.guestTracksPreferences[0]);
+                Log.e("track id size",PersonalizationConstant.trackIDs.size()+"i");
             }
+
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -1,10 +1,8 @@
-package musicplayer.party.Personalization;
+package musicplayer.party.Personalization.PlaylistUpdate;
 
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -20,7 +18,7 @@ import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.Helper.PartyConstant;
 import musicplayer.party.R;
 
-public class CreatePlaylist extends ActionBarActivity implements Response.Listener,
+public class AddTracks extends ActionBarActivity implements Response.Listener,
         Response.ErrorListener {
 
 
@@ -32,7 +30,7 @@ public class CreatePlaylist extends ActionBarActivity implements Response.Listen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_playlist);
+        setContentView(R.layout.activity_add_tracks);
         mTextView = (TextView) findViewById(R.id.error);
 
     }
@@ -40,17 +38,15 @@ public class CreatePlaylist extends ActionBarActivity implements Response.Listen
     @Override
     protected void onStart() {
         super.onStart();
+
         mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
                 .getRequestQueue();
-        String url = "https://api.spotify.com/v1/users/anuragkanungo/playlists" ; // Spotify web API url to be called to retrieve guestTracksPreferences
+        String url = "https://api.spotify.com/v1/users/anuragkanungo/playlists"+ "/" + PartyConstant.partyPlaylistID + "/tracks?uris=" ; // Spotify web API url to be called to retrieve guestTracksPreferences
 
-        JSONObject params = new JSONObject();
-        try {
-            params.put("name","Party Playlist");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.d("JSON Object",params.toString());
+        for (int i=0;i<10;i++)
+            url = url + PartyConstant.partyPlaylistTracks.get(i) + ",";
+        url = url.substring(0,url.length()-1);
+
         /**
          * Create a JSON Request using CustomJSONObject function that takes 4 parameters:-
          * 1. Request method type i.e. a GEt ot a POST request type
@@ -60,7 +56,7 @@ public class CreatePlaylist extends ActionBarActivity implements Response.Listen
          */
         final CustomJSONObjectRequest jsonRequest = new CustomJSONObjectRequest(Request.Method
                 .POST, url,
-                params, this, this);
+                new JSONObject(), this, this);
 
         jsonRequest.setTag(REQUEST_TAG);
         mQueue.add(jsonRequest); // add JSON request to the queue
@@ -89,20 +85,16 @@ public class CreatePlaylist extends ActionBarActivity implements Response.Listen
         int y=0; // flag that is set if the user has some guestTracksPreferences
 
         try {
-            String  id = jsonresponse.getString("id");
-            PartyConstant.partyPlaylistID = id;
-            mTextView.setText(PartyConstant.partyPlaylistID);
+            String  id = jsonresponse.getString("snapshot_id");
+            Log.e("hello","test");
+            Log.e("last123", id);
+            mTextView.setText(id);
 
-
+            Log.e("last123", id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-    }
-
-    public void next(View view) {
-        Intent intent = new Intent(this, AddTracks.class);
-        startActivity(intent);
     }
 
 }

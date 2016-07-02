@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import musicplayer.party.Personalization.Guest.FilterArtistPreferenceService;
-import musicplayer.party.Personalization.Guest.FilterTrackPreferencesService;
 import musicplayer.party.Personalization.Host.HostPersonalizationService;
 
 /*
@@ -24,13 +22,13 @@ public class PartyHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Intent trackFilterIntent = new Intent(this, FilterTrackPreferencesService.class);
-        startService(trackFilterIntent);
 
-        Intent artistFilterIntent = new Intent(this, FilterArtistPreferenceService.class);
-        startService(artistFilterIntent);
+    /*
+     * Set boolean parameters in protocol so that below personalization service runs only in Host device
+     */
 
         Intent hostPersonalizationIntent = new Intent(this, HostPersonalizationService.class);
         startService(hostPersonalizationIntent);
+
     }
 }

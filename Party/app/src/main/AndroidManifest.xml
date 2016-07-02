@@ -10,8 +10,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".Personalization.Guest.FilterTrackPreferencesService" />
-        <service android:name=".Personalization.Guest.FilterArtistPreferenceService" />
+        <service android:name=".Personalization.Host.FilterArtistPreferenceService" />
+        <service android:name=".Personalization.Host.FilterTrackPreferencesService" />
+        <service android:name=".Personalization.Host.HostPersonalizationService" />
+        <service android:name=".Personalization.Host.UpdateArtistParametersService" />
+        <service android:name=".Personalization.Host.UpdateTrackParametersService" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,9 +29,9 @@
         <activity android:name=".SpotifyService.SpotifyRetrieveArtists" />
         <activity android:name=".PartyHome" />
         <activity android:name=".SpotifyService.SpotifyRetrieveTracks" />
-        <activity android:name=".Personalization.Recommendation" />
-        <activity android:name=".Personalization.CreatePlaylist" />
-        <activity android:name=".Personalization.AddTracks"></activity>
+        <activity android:name=".Personalization.PlaylistUpdate.Recommendation" />
+        <activity android:name=".Personalization.PlaylistUpdate.CreatePlaylist" />
+        <activity android:name=".Personalization.PlaylistUpdate.AddTracks"></activity>
     </application>
 
 </manifest>

@@ -2,10 +2,9 @@ package musicplayer.party.SpotifyService;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-
-import android.support.v7.app.ActionBarActivity;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -18,9 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import musicplayer.party.SpotifyAssembly;
-import musicplayer.party.SpotifyMethodsImpl;
 import musicplayer.party.R;
+import musicplayer.party.SpotifyAssembly;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -197,6 +195,7 @@ public class SpotifyRetrieveArtists extends ActionBarActivity implements Respons
             {
                 UserProfile.guestArtistsPreferences[selectedPrefCount]= topArtistsID[i];
                 selectedPrefCount++;
+                Log.e("selectednumart","i"+selectedPrefCount);
             }
         }
         /**

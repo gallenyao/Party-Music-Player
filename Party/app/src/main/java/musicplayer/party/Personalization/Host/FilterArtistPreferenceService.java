@@ -1,8 +1,9 @@
-package musicplayer.party.Personalization.Guest;
+package musicplayer.party.Personalization.Host;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,6 +41,8 @@ public class FilterArtistPreferenceService extends Service implements Response.E
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        Log.e("Entered filter","artist service");
+
         mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
                 .getRequestQueue();
 
@@ -52,6 +55,7 @@ public class FilterArtistPreferenceService extends Service implements Response.E
             if(UserProfile.guestArtistsPreferences[i]!=null){
                 url = url + UserProfile.guestArtistsPreferences[i]+",";
                 numberOfArtists++;
+                Log.e("numofart","i"+numberOfArtists);
             }
 
         }
@@ -91,7 +95,7 @@ public class FilterArtistPreferenceService extends Service implements Response.E
     @Override
     public void onResponse(JSONObject response) {
 
-        int count=0,popularity; // stores the popularity metadata about each artist retrieved from Spotify response
+        int count =0,popularity; // stores the popularity metadata about each artist retrieved from Spotify response
         /**
          * Store the JSON response retrieved from Spotify web API
          */
@@ -109,13 +113,15 @@ public class FilterArtistPreferenceService extends Service implements Response.E
                  * If an artist meets the criteria, add the artist to the userPreferredArtist which will be sent to Host and used for personalization
                  */
                 if (popularity >= PersonalizationConstant.popularity) {
-                    UserProfile.userFilteredPreferredArtists[count]= artists.getJSONObject(i).getString("uri");
-                    count++ ;
-                }
+                    PersonalizationConstant.artistIDs.add(artists.getJSONObject(i).getString("uri"));
+                    Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
+                 }
             }
-            if(count==0){
-                UserProfile.userFilteredPreferredArtists[count]= UserProfile.guestArtistsPreferences[0];
+            if(PersonalizationConstant.artistIDs.size()==0){
+                PersonalizationConstant.artistIDs.add(UserProfile.guestArtistsPreferences[0]);
+                Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
             }
+
 
         } catch (JSONException e) {
             e.printStackTrace();

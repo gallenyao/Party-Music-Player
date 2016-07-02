@@ -3,6 +3,7 @@ package musicplayer.party.Personalization.Host;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,7 +23,7 @@ import musicplayer.party.SpotifyService.UserProfile;
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
  * Name: UpdateTrackParamteresService
  * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
- * The java class is for updating the track's personalization parameter.
+ * The java class is for updating the track's personalization parameter based on mean algorithm.
  */
 public class UpdateTrackParametersService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
     /**
@@ -122,6 +123,13 @@ public class UpdateTrackParametersService extends Service implements Response.Er
             PersonalizationConstant.energy = mean_energy;
             PersonalizationConstant.instrumentalness = mean_instrumentalness;
             PersonalizationConstant.valence = mean_valence;
+
+            /*
+                Starting the filter track service based on new track parameters calculated above
+             */
+            Intent filterTrackIntent = new Intent(this, FilterTrackPreferencesService.class);
+            startService(filterTrackIntent);
+            Log.e("starting filter", "track service");
 
         } catch (JSONException e) {
             e.printStackTrace();

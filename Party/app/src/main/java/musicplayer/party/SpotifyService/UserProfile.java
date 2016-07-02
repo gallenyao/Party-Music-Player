@@ -23,14 +23,7 @@ public class UserProfile {
      * A flag that used to identify login status.
      */
     public static boolean DEFAULT_LOGIN_STATUS = false;
-    /**
-     * A string array to store user filtered preferred top artists that will be used in personalization.
-     */
-    public static String[] userFilteredPreferredArtists = new String[PREFERENCE_LENGTH];
-    /**
-     * A string array to store user filtered preferred top artists that will be used in personalization.
-     */
-    public static String[] userFilteredPreferredTracks = new String[PREFERENCE_LENGTH];
+
     /**
      * String to store the userID.
      */

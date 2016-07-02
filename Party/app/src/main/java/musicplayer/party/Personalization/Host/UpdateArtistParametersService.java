@@ -3,6 +3,7 @@ package musicplayer.party.Personalization.Host;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -107,6 +108,13 @@ public class UpdateArtistParametersService extends Service implements Response.E
             }
             mean_popularity = sum_popularity/numberOfArtists;
             PersonalizationConstant.popularity = mean_popularity;
+
+            /*
+                Starting the filter artist service based on new popularity parameter calculated above
+             */
+            Intent filterArtistIntent = new Intent(this, FilterArtistPreferenceService.class);
+            startService(filterArtistIntent);
+            Log.e("Starting filter","track service");
 
         } catch (JSONException e) {
             e.printStackTrace();
