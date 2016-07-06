@@ -36,7 +36,7 @@ public class AddTracksService extends Service implements Response.ErrorListener,
                 .getRequestQueue();
         String url = "https://api.spotify.com/v1/users/"+ UserProfile.userID +"/playlists"+ "/" + PartyConstant.partyPlaylistID + "/tracks?uris=" ; // Spotify web API url to be called to retrieve guestTracksPreferences
 
-        for (int i=0;i<10;i++)
+        for (int i=0;i<PartyConstant.partyPlaylistTracks.size();i++)
             url = url + PartyConstant.partyPlaylistTracks.get(i) + ",";
         url = url.substring(0,url.length()-1);
 

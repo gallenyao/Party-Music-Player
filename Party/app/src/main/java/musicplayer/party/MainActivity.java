@@ -11,6 +11,7 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
 import musicplayer.party.Helper.PartyConstant;
 import musicplayer.party.SpotifyService.InstructionActivity;
+import musicplayer.party.SpotifyService.SpotifyAssembly;
 import musicplayer.party.SpotifyService.UserProfile;
 
 /**

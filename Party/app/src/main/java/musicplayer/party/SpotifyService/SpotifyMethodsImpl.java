@@ -1,4 +1,4 @@
-package musicplayer.party;
+package musicplayer.party.SpotifyService;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,7 +29,7 @@ public class SpotifyMethodsImpl {
     /**
      * Set the variables for different UI components declared in activity_spotify_retrieve_artists file.
      */
-    private static final String REQUEST_TAG = "SpotifyRetrieveArtists";
+    private static final String REQUEST_TAG = "SpotifyMethodsImpl";
 
 
     public void requestArtists(Context c, Response.Listener<JSONObject> listener,

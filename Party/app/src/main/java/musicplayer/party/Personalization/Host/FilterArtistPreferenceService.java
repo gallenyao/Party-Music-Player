@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import musicplayer.party.Helper.CustomJSONObjectRequest;
 import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.Helper.PersonalizationConstant;
+import musicplayer.party.Personalization.PlaylistUpdate.RecommedationService;
 import musicplayer.party.SpotifyService.UserProfile;
 
 /**
@@ -113,7 +114,7 @@ public class FilterArtistPreferenceService extends Service implements Response.E
                  * If an artist meets the criteria, add the artist to the userPreferredArtist which will be sent to Host and used for personalization
                  */
                 if (popularity >= PersonalizationConstant.popularity) {
-                    PersonalizationConstant.artistIDs.add(artists.getJSONObject(i).getString("uri"));
+                    PersonalizationConstant.artistIDs.add(artists.getJSONObject(i).getString("id"));
                     Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
                  }
             }
@@ -122,6 +123,22 @@ public class FilterArtistPreferenceService extends Service implements Response.E
                 Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
             }
 
+            /*
+                If #artists is still greater than 5 then call UpdateArtistParameter service again
+             */
+            if(PersonalizationConstant.artistIDs.size()>2){
+
+                for(int i= PersonalizationConstant.artistIDs.size()-1; i>1; i--)
+                    PersonalizationConstant.artistIDs.remove(i);
+            }
+
+            /*
+                Start recommnedation service after this
+             */
+
+            Intent recommnedationIntent = new Intent(this, RecommedationService.class);
+            startService(recommnedationIntent);
+            Log.e("starting recom ", "service");
 
         } catch (JSONException e) {
             e.printStackTrace();

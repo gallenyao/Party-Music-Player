@@ -19,7 +19,6 @@ import org.json.JSONObject;
 
 import musicplayer.party.PartyHome;
 import musicplayer.party.R;
-import musicplayer.party.SpotifyAssembly;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.

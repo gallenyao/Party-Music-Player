@@ -49,13 +49,14 @@ public class UpdateArtistParametersService extends Service implements Response.E
         /**
          * Traversing the guestArtistsPreferences array and append the artist IDs at the end of url to retrieve their metadata
          */
-        for(int i=0; i<UserProfile.guestArtistsPreferences.length;i++){
-            if(UserProfile.guestArtistsPreferences[i]!=null){
-                url = url + UserProfile.guestArtistsPreferences[i]+",";
-                numberOfArtists++;
-            }
 
-        }
+         for(int i=0; i<UserProfile.guestArtistsPreferences.length;i++) {
+             if (UserProfile.guestArtistsPreferences[i] != null) {
+                 url = url + UserProfile.guestArtistsPreferences[i] + ",";
+                 numberOfArtists++;
+             }
+         }
+
         url = url.substring(0,url.length()-1);
 
         /**

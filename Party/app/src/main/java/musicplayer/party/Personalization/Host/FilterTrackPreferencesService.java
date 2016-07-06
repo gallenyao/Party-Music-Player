@@ -119,7 +119,7 @@ public class FilterTrackPreferencesService extends Service implements Response.E
                  * If a track meets the criteria, add the track to the userFilteredPreferredTracks which will be sent to Host and used for personalization
                  */
                 if (energy >= PersonalizationConstant.energy && danceability >= PersonalizationConstant.danceability && valence >= PersonalizationConstant.valence && instrumentalness >= PersonalizationConstant.instrumentalness){
-                    PersonalizationConstant.trackIDs.add(audio_features.getJSONObject(i).getString("uri"));
+                    PersonalizationConstant.trackIDs.add(audio_features.getJSONObject(i).getString("id"));
                     Log.e("track id size",PersonalizationConstant.trackIDs.size()+"i");
                 }
             }
@@ -128,6 +128,21 @@ public class FilterTrackPreferencesService extends Service implements Response.E
                 PersonalizationConstant.trackIDs.add(UserProfile.guestTracksPreferences[0]);
                 Log.e("track id size",PersonalizationConstant.trackIDs.size()+"i");
             }
+
+             /*
+                if #tracks is till greater than 5 remove the last elements from array
+             */
+            if(PersonalizationConstant.trackIDs.size()>3){
+                for(int i= PersonalizationConstant.trackIDs.size()-1;i >2;i--)
+                    PersonalizationConstant.trackIDs.remove(i);
+            }
+
+            /*
+                Start artists update and filter service after this
+             */
+
+            Intent updateArtistParametersIntent = new Intent(this, UpdateArtistParametersService.class);
+            startService(updateArtistParametersIntent);
 
 
         } catch (JSONException e) {

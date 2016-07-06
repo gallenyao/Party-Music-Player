@@ -49,13 +49,14 @@ public class UpdateTrackParametersService extends Service implements Response.Er
         /**
          * Traversing the guestTracksPreferences array and append the track IDs at the end of url to retrieve their metadata
          */
-        for(int i=0; i<UserProfile.guestTracksPreferences.length;i++){
-            if(UserProfile.guestTracksPreferences[i]!=null){
-                url = url + UserProfile.guestTracksPreferences[i]+",";
-                numberOfTracks++; // counting the number of tracks in guestTracksPreferences array
-            }
 
-        }
+         for (int i = 0; i < UserProfile.guestTracksPreferences.length; i++) {
+             if (UserProfile.guestTracksPreferences[i] != null) {
+                 url = url + UserProfile.guestTracksPreferences[i] + ",";
+                 numberOfTracks++; // counting the number of tracks in guestTracksPreferences array
+             }
+         }
+
         url = url.substring(0,url.length()-1); // appending the extra ',' at the end of url
 
         /**

@@ -19,6 +19,7 @@ import musicplayer.party.Helper.CustomJSONObjectRequest;
 import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.Helper.PartyConstant;
 import musicplayer.party.Helper.PersonalizationConstant;
+import musicplayer.party.SpotifyService.UserProfile;
 
 
 /**
@@ -44,14 +45,35 @@ public class RecommedationService extends Service implements Response.ErrorListe
         String url = "https://api.spotify.com/v1/recommendations?min_popularity=" + PersonalizationConstant.popularity + "&min_energy=" + PersonalizationConstant.energy +
                 "&market=US&seed_artists="; // Spotify web API url to be called to retrieve guestTracksPreferences
 
-        for(int i = 0; i< PersonalizationConstant.artistIDs.size(); i++)
-            url = url + PersonalizationConstant.artistIDs.get(i)+ ",";
+        if(PersonalizationConstant.artistIDs.size()==0) {
+            for (int i = 0; i < 2; i++) {
+                if (UserProfile.guestArtistsPreferences[i] != null)
+                    url = url + UserProfile.guestArtistsPreferences[i] + ",";
+            }
+        }
+        else{
+            for(int i = 0; i< PersonalizationConstant.artistIDs.size(); i++){
+                url = url + PersonalizationConstant.artistIDs.get(i)+ ",";
+                Log.e("artist id 123", PersonalizationConstant.artistIDs.get(i));
+            }
+        }
+
 
         url = url.substring(0,url.length()-1);
         url = url + "&seed_tracks=";
 
-        for(int i=0;i<PersonalizationConstant.trackIDs.size();i++)
-            url = url + PersonalizationConstant.trackIDs.get(i)+ ",";
+        if(PersonalizationConstant.trackIDs.size()==0){
+            for(int i=0;i<3;i++){
+                if(UserProfile.guestTracksPreferences[i]!=null)
+                    url = url + UserProfile.guestTracksPreferences[i]+ ",";
+            }
+        }
+        else{
+            for(int i=0;i<PersonalizationConstant.trackIDs.size();i++) {
+                url = url + PersonalizationConstant.trackIDs.get(i) + ",";
+                Log.e("track id 123", PersonalizationConstant.trackIDs.get(i));
+            }
+        }
 
         url = url.substring(0,url.length()-1);
 
@@ -98,15 +120,11 @@ public class RecommedationService extends Service implements Response.ErrorListe
                 y=1;
             else
             {
-                for(int i = 0; i< PartyConstant.partyPlaylistTracks.size(); i++) {
-                    if (PartyConstant.partyPlaylistTracks.get(i) != null) {
-                        playlist_length++;
 
-                    }
-                }
-                Log.e("#t", playlist_length + "jfdj");
                 for (int i = 0; i < items.length(); i++) {
-                    PartyConstant.partyPlaylistTracks.set(i + playlist_length, items.getJSONObject(i).getString("uri"));
+                    Log.e("print item",items.getJSONObject(i).getString("uri"));
+                    Log.e("print track array",PartyConstant.partyPlaylistTracks.size()+"i");
+                    PartyConstant.partyPlaylistTracks.add(i,items.getJSONObject(i).getString("uri"));
 
                 }
 
@@ -118,10 +136,10 @@ public class RecommedationService extends Service implements Response.ErrorListe
 
 
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
 
 }
