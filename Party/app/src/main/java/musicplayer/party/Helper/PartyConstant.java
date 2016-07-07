@@ -1,5 +1,7 @@
 package musicplayer.party.Helper;
 
+import com.spotify.sdk.android.player.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,4 +28,6 @@ public class PartyConstant {
      * String array to store track IDs for common playlist.
      */
     public static List<String> partyPlaylistTracks = new ArrayList<String>();
+
+    public static Player mPlayer;
 }

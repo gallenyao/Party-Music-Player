@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import musicplayer.party.Helper.CustomJSONObjectRequest;
 import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.Helper.PartyConstant;
+import musicplayer.party.MediaPlayer.PlayTracks;
 import musicplayer.party.SpotifyService.UserProfile;
 
 /**
@@ -88,8 +89,14 @@ public class AddTracksService extends Service implements Response.ErrorListener,
         try {
             String  id = jsonresponse.getString("snapshot_id"); // Check if the tracks were successfully added
             Log.e("last123", id);
+
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Intent intent = new Intent(this, PlayTracks.class);
+        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

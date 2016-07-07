@@ -19,6 +19,7 @@
         <service android:name=".SpotifyService.SpotifyRetrieveUserInfoService" />
         <service android:name=".Personalization.PlaylistUpdate.AddTracksService" />
         <service android:name=".Personalization.PlaylistUpdate.RecommedationService" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +35,8 @@
         <activity android:name=".PartyHome" />
         <activity android:name=".SpotifyService.SpotifyRetrieveTracks" />
         <activity android:name=".Personalization.PlaylistUpdate.CreatePlaylistService" />
-        <activity android:name=".Personalization.PlaylistUpdate.AddTracksService"></activity>
+        <activity android:name=".Personalization.PlaylistUpdate.AddTracksService" />
+        <activity android:name=".MediaPlayer.PlayTracks"></activity>
     </application>
 
 </manifest>

@@ -1,18 +1,23 @@
 package musicplayer.party;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
+import com.spotify.sdk.android.player.Config;
+import com.spotify.sdk.android.player.Player;
+import com.spotify.sdk.android.player.Spotify;
 
 import musicplayer.party.Helper.PartyConstant;
 import musicplayer.party.SpotifyService.InstructionActivity;
 import musicplayer.party.SpotifyService.SpotifyAssembly;
 import musicplayer.party.SpotifyService.UserProfile;
+
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -67,6 +72,22 @@ public class MainActivity extends AppCompatActivity {
                     PartyConstant.Access_Token = response.getAccessToken();
                     UserProfile.DEFAULT_LOGIN_STATUS = true;
                     Toast.makeText(getApplicationContext(), "Log In Successful", Toast.LENGTH_LONG).show();
+
+                    /*
+                        Initializing Spotify android player to play Spotify tracks in the app
+                     */
+                    Config playerConfig = new Config(this, response.getAccessToken(), PartyConstant.CLIENT_ID);
+                    PartyConstant.mPlayer = Spotify.getPlayer(playerConfig, this, new Player.InitializationObserver() {
+                        @Override
+                        public void onInitialized(Player player) {
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            Log.e("MainActivity", "Could not initialize player: " + throwable.getMessage());
+                        }
+                    });
+
                     /**
                      * Set new intent and send login status to InstructionActivity.
                      */
