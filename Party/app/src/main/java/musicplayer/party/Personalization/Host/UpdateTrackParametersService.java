@@ -26,10 +26,8 @@ import musicplayer.party.SpotifyService.UserProfile;
  * The java class is for updating the track's personalization parameter based on mean algorithm.
  */
 public class UpdateTrackParametersService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
-    /**
-     * Request queue that will be used to send request to Spotify.
-     */
-    private RequestQueue mQueue;
+
+    private RequestQueue mQueue; //Request queue that will be used to send request to Spotify.
     private int numberOfTracks;
     private static final String REQUEST_TAG = "UpdateTrackParametersService";
 
@@ -93,44 +91,46 @@ public class UpdateTrackParametersService extends Service implements Response.Er
 
     @Override
     public void onResponse(JSONObject response) {
-        /**
-         * Store the  energy, danceability, valence, instrumentalness metadata about each track retrieved from Spotify response
-         */
-        double sum_energy = 0, sum_danceability = 0, sum_valence = 0, sum_instrumentalness = 0;
-        double mean_energy=0, mean_danceability=0, mean_valence=0, mean_instrumentalness=0;
 
-        /**
-         * Store the JSON response retrieved from Spotify web API
-         */
-        JSONObject jsonresponse = (JSONObject)response;
+        JSONObject jsonresponse = (JSONObject)response;//Store the JSON response retrieved from Spotify web API
         try {
             JSONArray audio_features = jsonresponse.getJSONArray("audio_features");
             /**
              * Traverse the JSONArray audio_features to retrieve the metadata about tracks
              */
             for(int i=0;i<numberOfTracks;i++){
-                sum_energy += Double.parseDouble(audio_features.getJSONObject(i).getString("energy"));
-                sum_danceability += Double.parseDouble(audio_features.getJSONObject(i).getString("danceability"));
-                sum_valence += Double.parseDouble(audio_features.getJSONObject(i).getString("valence"));
-                sum_instrumentalness += Double.parseDouble(audio_features.getJSONObject(i).getString("instrumentalness"));
+                PersonalizationConstant.energy += Double.parseDouble(audio_features.getJSONObject(i).getString("energy"));
+                PersonalizationConstant.danceability += Double.parseDouble(audio_features.getJSONObject(i).getString("danceability"));
+                PersonalizationConstant.valence += Double.parseDouble(audio_features.getJSONObject(i).getString("valence"));
+                PersonalizationConstant.instrumentalness += Double.parseDouble(audio_features.getJSONObject(i).getString("instrumentalness"));
             }
 
-            mean_danceability = sum_danceability/numberOfTracks;
-            mean_energy = sum_energy/numberOfTracks;
-            mean_instrumentalness= sum_instrumentalness/numberOfTracks;
-            mean_valence = sum_valence/numberOfTracks;
-
-            PersonalizationConstant.danceability = mean_danceability;
-            PersonalizationConstant.energy = mean_energy;
-            PersonalizationConstant.instrumentalness = mean_instrumentalness;
-            PersonalizationConstant.valence = mean_valence;
+            /*
+               Calculating mean of the track personalization parameters
+             */
+            PersonalizationConstant.danceability= PersonalizationConstant.danceability/numberOfTracks;
+            PersonalizationConstant.energy = PersonalizationConstant.energy/numberOfTracks;
+            PersonalizationConstant.instrumentalness= PersonalizationConstant.instrumentalness/numberOfTracks;
+            PersonalizationConstant.valence = PersonalizationConstant.valence/numberOfTracks;
 
             /*
-                Starting the filter track service based on new track parameters calculated above
+                If #tracks>3 starting the FilterTrackService based on new track parameters calculated above
+                else add the tracks to PersonalizationConstant.trackIDs array and
+                call UpdateArtistParametersService to update artists personalization parameters as well.
              */
-            Intent filterTrackIntent = new Intent(this, FilterTrackPreferencesService.class);
-            startService(filterTrackIntent);
-            Log.e("starting filter", "track service");
+            if(numberOfTracks>3) {
+                Intent filterTrackIntent = new Intent(this, FilterTrackPreferencesService.class);
+                startService(filterTrackIntent);
+                Log.e("starting filter", "track service");
+            }
+            else{
+
+                for(int i=0;i<numberOfTracks;i++)
+                    PersonalizationConstant.trackIDs.add(i,UserProfile.guestTracksPreferences[i]);
+
+                Intent updateArtistParametersIntent = new Intent(this, UpdateArtistParametersService.class);
+                startService(updateArtistParametersIntent);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -26,10 +26,8 @@ import musicplayer.party.SpotifyService.UserProfile;
  * The java class is for filtering the user's tracks preferences based on personalization parameter.
  */
 public class FilterTrackPreferencesService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
-    /**
-     * Request queue that will be used to send request to Spotify.
-     */
-    private RequestQueue mQueue;
+
+    private RequestQueue mQueue; //Request queue that will be used to send request to Spotify.
     private int numberOfTracks;
     private static final String REQUEST_TAG = "FilterTrackPreferencesService";
 
@@ -41,9 +39,7 @@ public class FilterTrackPreferencesService extends Service implements Response.E
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.e("Entered filter","track service");
-        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
-                .getRequestQueue();
+        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
 
         String url = "https://api.spotify.com/v1/audio-features/?ids="; // Spotify web API url to be called to retrieve metadata about user preferred tracks
 
@@ -54,9 +50,7 @@ public class FilterTrackPreferencesService extends Service implements Response.E
             if(UserProfile.guestTracksPreferences[i]!=null){
                 url = url + UserProfile.guestTracksPreferences[i]+",";
                 numberOfTracks++; // counting the number of tracks in guestTracksPreferences array
-                Log.e("numofttracks","i"+numberOfTracks);
             }
-
         }
         url = url.substring(0,url.length()-1); // appending the extra ',' at the end of url
 
@@ -97,12 +91,8 @@ public class FilterTrackPreferencesService extends Service implements Response.E
          * Store the  energy, danceability, valence, instrumentalness metadata about each track retrieved from Spotify response
          */
         double energy, danceability, valence, instrumentalness;
-        int count =0;
+        JSONObject jsonresponse = (JSONObject)response; //Store the JSON response retrieved from Spotify web API
 
-        /**
-         * Store the JSON response retrieved from Spotify web API
-         */
-        JSONObject jsonresponse = (JSONObject)response;
         try {
             JSONArray audio_features = jsonresponse.getJSONArray("audio_features");
             /**
@@ -116,7 +106,7 @@ public class FilterTrackPreferencesService extends Service implements Response.E
 
                 /**
                  * Determine if the track meets the track parameters specified in PersonalizationConstant class
-                 * If a track meets the criteria, add the track to the userFilteredPreferredTracks which will be sent to Host and used for personalization
+                 * If a track meets the criteria, add the track to the trackIDS array for personalization
                  */
                 if (energy >= PersonalizationConstant.energy && danceability >= PersonalizationConstant.danceability && valence >= PersonalizationConstant.valence && instrumentalness >= PersonalizationConstant.instrumentalness){
                     PersonalizationConstant.trackIDs.add(audio_features.getJSONObject(i).getString("id"));
@@ -124,23 +114,19 @@ public class FilterTrackPreferencesService extends Service implements Response.E
                 }
             }
 
+            // If trackIDs array is empty, add any track in it so that it can be used for personalization
             if(PersonalizationConstant.trackIDs.size()==0){
                 PersonalizationConstant.trackIDs.add(UserProfile.guestTracksPreferences[0]);
                 Log.e("track id size",PersonalizationConstant.trackIDs.size()+"i");
             }
 
-             /*
-                if #tracks is till greater than 5 remove the last elements from array
-             */
+            //if #tracks>3 automatically remove the extra tracks from trackIDS array
             if(PersonalizationConstant.trackIDs.size()>3){
                 for(int i= PersonalizationConstant.trackIDs.size()-1;i >2;i--)
                     PersonalizationConstant.trackIDs.remove(i);
             }
 
-            /*
-                Start artists update and filter service after this
-             */
-
+            // Start UpdateArtistParametersService for updating artists parameters for personalization
             Intent updateArtistParametersIntent = new Intent(this, UpdateArtistParametersService.class);
             startService(updateArtistParametersIntent);
 

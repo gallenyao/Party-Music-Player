@@ -18,10 +18,17 @@ import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.Helper.PartyConstant;
 import musicplayer.party.SpotifyService.UserProfile;
 
+/**
+ * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
+ * Name: AddTracksService
+ * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
+ * The java class is for adding tracks to Spotify playlist.
+ */
+
 public class AddTracksService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
 
 
-    public static final String REQUEST_TAG = "AddTracksService";
+    public static final String REQUEST_TAG = "AddTracksService"; //Request queue that will be used to send request to Spotify.
     private RequestQueue mQueue;
 
     @Override
@@ -32,10 +39,10 @@ public class AddTracksService extends Service implements Response.ErrorListener,
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
-                .getRequestQueue();
-        String url = "https://api.spotify.com/v1/users/"+ UserProfile.userID +"/playlists"+ "/" + PartyConstant.partyPlaylistID + "/tracks?uris=" ; // Spotify web API url to be called to retrieve guestTracksPreferences
+        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
+        String url = "https://api.spotify.com/v1/users/"+ UserProfile.userID +"/playlists"+ "/" + PartyConstant.partyPlaylistID + "/tracks?uris=" ; // Spotify web API url to be called to add tracks
 
+        // Parsing the partyPlaylistTracks array to add tracks to url
         for (int i=0;i<PartyConstant.partyPlaylistTracks.size();i++)
             url = url + PartyConstant.partyPlaylistTracks.get(i) + ",";
         url = url.substring(0,url.length()-1);
@@ -77,16 +84,12 @@ public class AddTracksService extends Service implements Response.ErrorListener,
     public void onResponse(JSONObject response) {
 
         JSONObject jsonresponse = (JSONObject)response; // store the JSONresponse retrieved from Spotify web API
-        int y=0; // flag that is set if the user has some guestTracksPreferences
 
         try {
-            String  id = jsonresponse.getString("snapshot_id");
+            String  id = jsonresponse.getString("snapshot_id"); // Check if the tracks were successfully added
             Log.e("last123", id);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
-
 }

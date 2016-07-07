@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import musicplayer.party.Helper.CustomJSONObjectRequest;
 import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.Helper.PersonalizationConstant;
+import musicplayer.party.Personalization.PlaylistUpdate.RecommedationService;
 import musicplayer.party.SpotifyService.UserProfile;
 
 /**
@@ -26,10 +27,8 @@ import musicplayer.party.SpotifyService.UserProfile;
  * The java class is for updating the tracks personalization parameter based on mean algorithm approach.
  */
 public class UpdateArtistParametersService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
-    /**
-     * Request queue that will be used to send request to Spotify.
-     */
-    private RequestQueue mQueue;
+
+    private RequestQueue mQueue; //Request queue that will be used to send request to Spotify.
     private int numberOfArtists;
     private static final String REQUEST_TAG = "UpdateArtistParametersService";
 
@@ -93,11 +92,7 @@ public class UpdateArtistParametersService extends Service implements Response.E
     @Override
     public void onResponse(JSONObject response) {
 
-        int count=0,sum_popularity=0, mean_popularity; // stores the popularity metadata about each artist retrieved from Spotify response
-        /**
-         * Store the JSON response retrieved from Spotify web API
-         */
-        JSONObject jsonresponse = (JSONObject)response;
+        JSONObject jsonresponse = (JSONObject)response; //Store the JSON response retrieved from Spotify web API
         try {
 
             JSONArray artists = jsonresponse.getJSONArray("artists");
@@ -105,17 +100,29 @@ public class UpdateArtistParametersService extends Service implements Response.E
              * Traverse the JSONArray artists to retrieve the metadata about artists
              */
             for(int i=0;i<numberOfArtists;i++){
-                sum_popularity += Integer.parseInt(artists.getJSONObject(i).getString("popularity"));
+                PersonalizationConstant.popularity += Integer.parseInt(artists.getJSONObject(i).getString("popularity"));
             }
-            mean_popularity = sum_popularity/numberOfArtists;
-            PersonalizationConstant.popularity = mean_popularity;
+            PersonalizationConstant.popularity = PersonalizationConstant.popularity/numberOfArtists;
 
             /*
-                Starting the filter artist service based on new popularity parameter calculated above
+                If #artists>2 start FilterArtistService to reduce #artists based on new popularity parameter calculated above
+                Else add artists to artistsIDs array for personalization and start RecommendationService
              */
-            Intent filterArtistIntent = new Intent(this, FilterArtistPreferenceService.class);
-            startService(filterArtistIntent);
-            Log.e("Starting filter","track service");
+
+            if(numberOfArtists>2){
+                Intent filterArtistIntent = new Intent(this, FilterArtistPreferenceService.class);
+                startService(filterArtistIntent);
+                Log.e("Starting filter","track service");
+            }
+            else{
+                    for(int i=0;i<numberOfArtists;i++)
+                      PersonalizationConstant.artistIDs.add(i,UserProfile.guestArtistsPreferences[i]);
+
+                    Intent recommnedationIntent = new Intent(this, RecommedationService.class);
+                    startService(recommnedationIntent);
+                    Log.e("starting recom ", "service");
+            }
+
 
         } catch (JSONException e) {
             e.printStackTrace();

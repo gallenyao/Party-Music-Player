@@ -27,10 +27,8 @@ import musicplayer.party.SpotifyService.UserProfile;
  * The java class is for filtering the user's artists preferences based on personalization parameter.
  */
 public class FilterArtistPreferenceService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
-    /**
-     * Request queue that will be used to send request to Spotify.
-     */
-    private RequestQueue mQueue;
+
+    private RequestQueue mQueue; //Request queue that will be used to send request to Spotify.
     private int numberOfArtists;
     private static final String REQUEST_TAG = "FilterArtistPreferencesService";
 
@@ -42,10 +40,7 @@ public class FilterArtistPreferenceService extends Service implements Response.E
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.e("Entered filter","artist service");
-
-        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
-                .getRequestQueue();
+        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
 
         String url = "https://api.spotify.com/v1/artists/?ids="; // Spotify web API url to be called to retrieve metadata about user preferred artist
 
@@ -97,10 +92,8 @@ public class FilterArtistPreferenceService extends Service implements Response.E
     public void onResponse(JSONObject response) {
 
         int count =0,popularity; // stores the popularity metadata about each artist retrieved from Spotify response
-        /**
-         * Store the JSON response retrieved from Spotify web API
-         */
-        JSONObject jsonresponse = (JSONObject)response;
+        JSONObject jsonresponse = (JSONObject)response; //Store the JSON response retrieved from Spotify web API
+
         try {
 
             JSONArray artists = jsonresponse.getJSONArray("artists");
@@ -111,31 +104,26 @@ public class FilterArtistPreferenceService extends Service implements Response.E
                 popularity = Integer.parseInt(artists.getJSONObject(i).getString("popularity"));
                 /**
                  * Determine if the artist meets specified popularity in PersonalizationConstant class
-                 * If an artist meets the criteria, add the artist to the userPreferredArtist which will be sent to Host and used for personalization
+                 * If an artist meets the criteria, add the artist to the artistIds array that will be used for personalization
                  */
                 if (popularity >= PersonalizationConstant.popularity) {
                     PersonalizationConstant.artistIDs.add(artists.getJSONObject(i).getString("id"));
                     Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
                  }
             }
+            //
             if(PersonalizationConstant.artistIDs.size()==0){
                 PersonalizationConstant.artistIDs.add(UserProfile.guestArtistsPreferences[0]);
                 Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
             }
 
-            /*
-                If #artists is still greater than 5 then call UpdateArtistParameter service again
-             */
-            if(PersonalizationConstant.artistIDs.size()>2){
-
+            //If #artists>2, automatically remove the extra artists from artistIDs array
+             if(PersonalizationConstant.artistIDs.size()>2){
                 for(int i= PersonalizationConstant.artistIDs.size()-1; i>1; i--)
                     PersonalizationConstant.artistIDs.remove(i);
             }
 
-            /*
-                Start recommnedation service after this
-             */
-
+            // Start RecommendationService
             Intent recommnedationIntent = new Intent(this, RecommedationService.class);
             startService(recommnedationIntent);
             Log.e("starting recom ", "service");

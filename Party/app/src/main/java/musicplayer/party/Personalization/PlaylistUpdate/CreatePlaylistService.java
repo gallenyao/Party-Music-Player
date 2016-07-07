@@ -18,11 +18,18 @@ import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.Helper.PartyConstant;
 import musicplayer.party.SpotifyService.UserProfile;
 
+/**
+ * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
+ * Name: CreatePlaylistService
+ * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
+ * The java class is for creating a playlist for party.
+ */
+
 public class CreatePlaylistService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
 
 
     public static final String REQUEST_TAG = "CreatePlaylistService";
-    private RequestQueue mQueue;
+    private RequestQueue mQueue; //Request queue that will be used to send request to Spotify.
 
     @Override
     public void onCreate() {
@@ -32,9 +39,8 @@ public class CreatePlaylistService extends Service implements Response.ErrorList
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
-                .getRequestQueue();
-        String url = "https://api.spotify.com/v1/users/" + UserProfile.userID + "/playlists" ; // Spotify web API url to be called to retrieve guestTracksPreferences
+        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
+        String url = "https://api.spotify.com/v1/users/" + UserProfile.userID + "/playlists" ; // Spotify web API url to be called create playlist
 
         JSONObject params = new JSONObject();
         try {
@@ -78,11 +84,9 @@ public class CreatePlaylistService extends Service implements Response.ErrorList
     public void onResponse(JSONObject response) {
 
         JSONObject jsonresponse = (JSONObject)response; // store the JSONresponse retrieved from Spotify web API
-        int y=0; // flag that is set if the user has some guestTracksPreferences
 
         try {
-            String  id = jsonresponse.getString("id");
-            PartyConstant.partyPlaylistID = id;
+            PartyConstant.partyPlaylistID = jsonresponse.getString("id"); // store the playlist ID
 
         } catch (JSONException e) {
             e.printStackTrace();

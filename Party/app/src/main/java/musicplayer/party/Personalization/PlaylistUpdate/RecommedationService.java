@@ -19,18 +19,17 @@ import musicplayer.party.Helper.CustomJSONObjectRequest;
 import musicplayer.party.Helper.CustomVolleyRequestQueue;
 import musicplayer.party.Helper.PartyConstant;
 import musicplayer.party.Helper.PersonalizationConstant;
-import musicplayer.party.SpotifyService.UserProfile;
-
 
 /**
- * Created by Nikita Jain on 7/2/2016.
+ * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
+ * Name: RecommendationService
+ * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
+ * The java class is for retrieving personalizaed tracks.
  */
 public class RecommedationService extends Service implements Response.ErrorListener, Response.Listener<JSONObject>{
 
     public static final String REQUEST_TAG = "RecommendationService";
-    public static int playlist_length;
-    private RequestQueue mQueue;
-
+   private RequestQueue mQueue; //Request queue that will be used to send request to Spotify.
 
     @Override
     public void onCreate() {
@@ -40,40 +39,21 @@ public class RecommedationService extends Service implements Response.ErrorListe
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
-                .getRequestQueue();
+        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
+
         String url = "https://api.spotify.com/v1/recommendations?min_popularity=" + PersonalizationConstant.popularity + "&min_energy=" + PersonalizationConstant.energy +
-                "&market=US&seed_artists="; // Spotify web API url to be called to retrieve guestTracksPreferences
+                "&market=US&seed_artists="; // Spotify web API url to be called to Spotify's recommendation API
 
-        if(PersonalizationConstant.artistIDs.size()==0) {
-            for (int i = 0; i < 2; i++) {
-                if (UserProfile.guestArtistsPreferences[i] != null)
-                    url = url + UserProfile.guestArtistsPreferences[i] + ",";
-            }
-        }
-        else{
-            for(int i = 0; i< PersonalizationConstant.artistIDs.size(); i++){
-                url = url + PersonalizationConstant.artistIDs.get(i)+ ",";
-                Log.e("artist id 123", PersonalizationConstant.artistIDs.get(i));
-            }
-        }
-
+        // Adding artists to recommendation url
+        for(int i = 0; i< PersonalizationConstant.artistIDs.size(); i++)
+            url = url + PersonalizationConstant.artistIDs.get(i)+ ",";
 
         url = url.substring(0,url.length()-1);
         url = url + "&seed_tracks=";
 
-        if(PersonalizationConstant.trackIDs.size()==0){
-            for(int i=0;i<3;i++){
-                if(UserProfile.guestTracksPreferences[i]!=null)
-                    url = url + UserProfile.guestTracksPreferences[i]+ ",";
-            }
-        }
-        else{
-            for(int i=0;i<PersonalizationConstant.trackIDs.size();i++) {
-                url = url + PersonalizationConstant.trackIDs.get(i) + ",";
-                Log.e("track id 123", PersonalizationConstant.trackIDs.get(i));
-            }
-        }
+        // Adding tracks to recommendation url
+        for(int i=0;i<PersonalizationConstant.trackIDs.size();i++)
+            url = url + PersonalizationConstant.trackIDs.get(i) + ",";
 
         url = url.substring(0,url.length()-1);
 
@@ -112,34 +92,31 @@ public class RecommedationService extends Service implements Response.ErrorListe
     public void onResponse(JSONObject response) {
 
         JSONObject jsonresponse = (JSONObject)response; // store the JSONresponse retrieved from Spotify web API
-        int y=0; // flag that is set if the user has some guestTracksPreferences
+        int y=0;
 
         try {
             JSONArray items = jsonresponse.getJSONArray("tracks");
+
+            /*
+                If no tracks are recommended then do nothing else traverse the response and add the tracks to partyPlaylistTracks array
+             */
             if (items.length()==0)
                 y=1;
             else
             {
-
+                int len = PartyConstant.partyPlaylistTracks.size();
                 for (int i = 0; i < items.length(); i++) {
                     Log.e("print item",items.getJSONObject(i).getString("uri"));
                     Log.e("print track array",PartyConstant.partyPlaylistTracks.size()+"i");
-                    PartyConstant.partyPlaylistTracks.add(i,items.getJSONObject(i).getString("uri"));
-
+                    PartyConstant.partyPlaylistTracks.add(len+ i,items.getJSONObject(i).getString("uri"));
                 }
 
-                /**
-                 * Calling add tracks service to add tracks to spotify playlist
-                 */
+                //Calling add tracks service to add tracks to spotify playlist
                 Intent addTracksIntent = new Intent(this, AddTracksService.class);
                 startService(addTracksIntent);
-
-
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
 }
