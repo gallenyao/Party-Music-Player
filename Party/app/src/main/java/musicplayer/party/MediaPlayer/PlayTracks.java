@@ -15,7 +15,7 @@ import musicplayer.party.R;
 public class PlayTracks extends AppCompatActivity implements ConnectionStateCallback, PlayerNotificationCallback {
 
     private Button resumeButton;
-    private int currentTrack;
+    private int currentTrack=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +26,8 @@ public class PlayTracks extends AppCompatActivity implements ConnectionStateCall
     }
 
     public void play(View view){
-//        mPlayer.addConnectionStateCallback(PlayTracks.this);
-//        mPlayer.addPlayerNotificationCallback(PlayTracks.this);
 
-        for(int i=0;i< PartyConstant.partyPlaylistTracks.size();i++) {
-            PartyConstant.mPlayer.play(PartyConstant.partyPlaylistTracks.get(i));
-            currentTrack =i;
-        }
+        PartyConstant.mPlayer.play(PartyConstant.partyPlaylistTracks);
     }
 
     public void pause(View view){
@@ -46,13 +41,8 @@ public class PlayTracks extends AppCompatActivity implements ConnectionStateCall
     }
 
     public void next(View view){
-//        if(PartyConstant.partyPlaylistTracks.get(currentTrack+1)==null)
-//            currentTrack =0;
-//
-//        for(int i=currentTrack;i< PartyConstant.partyPlaylistTracks.size();i++) {
-//            PartyConstant.mPlayer.play(PartyConstant.partyPlaylistTracks.get(i));
-//            currentTrack =i;
-//        }
+
+        PartyConstant.mPlayer.skipToNext();
     }
 
     @Override
