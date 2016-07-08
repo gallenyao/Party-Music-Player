@@ -1,4 +1,4 @@
-package musicplayer.party.SpotifyService;
+package musicplayer.party.spotifyService;
 
 import android.app.Service;
 import android.content.Intent;
@@ -13,10 +13,10 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import musicplayer.party.Helper.CustomJSONObjectRequest;
-import musicplayer.party.Helper.CustomVolleyRequestQueue;
-import musicplayer.party.Helper.PartyConstant;
-import musicplayer.party.Personalization.PlaylistUpdate.CreatePlaylistService;
+import musicplayer.party.helper.CustomJSONObjectRequest;
+import musicplayer.party.helper.CustomVolleyRequestQueue;
+import musicplayer.party.helper.PartyConstant;
+import musicplayer.party.personalization.playlistUpdate.CreatePlaylistService;
 
 /**
  * Created by Nikita Jain on 7/2/2016.

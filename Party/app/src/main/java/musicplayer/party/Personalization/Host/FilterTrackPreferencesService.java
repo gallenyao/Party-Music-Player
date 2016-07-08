@@ -1,4 +1,4 @@
-package musicplayer.party.Personalization.Host;
+package musicplayer.party.personalization.host;
 
 import android.app.Service;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import musicplayer.party.Helper.CustomJSONObjectRequest;
-import musicplayer.party.Helper.CustomVolleyRequestQueue;
-import musicplayer.party.Helper.PersonalizationConstant;
-import musicplayer.party.SpotifyService.UserProfile;
+import musicplayer.party.helper.CustomJSONObjectRequest;
+import musicplayer.party.helper.CustomVolleyRequestQueue;
+import musicplayer.party.helper.PersonalizationConstant;
+import musicplayer.party.spotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -82,7 +82,7 @@ public class FilterTrackPreferencesService extends Service implements Response.E
 
     @Override
     public void onDestroy() {
-
+        Log.e("DestroyService","Destroy FilterTrackService");
     }
 
     @Override
@@ -110,14 +110,14 @@ public class FilterTrackPreferencesService extends Service implements Response.E
                  */
                 if (energy >= PersonalizationConstant.energy && danceability >= PersonalizationConstant.danceability && valence >= PersonalizationConstant.valence && instrumentalness >= PersonalizationConstant.instrumentalness){
                     PersonalizationConstant.trackIDs.add(audio_features.getJSONObject(i).getString("id"));
-                    Log.e("track id size",PersonalizationConstant.trackIDs.size()+"i");
+                    //Log.e("track id size",PersonalizationConstant.trackIDs.size()+"i");
                 }
             }
 
             // If trackIDs array is empty, add any track in it so that it can be used for personalization
             if(PersonalizationConstant.trackIDs.size()==0){
                 PersonalizationConstant.trackIDs.add(UserProfile.guestTracksPreferences[0]);
-                Log.e("track id size",PersonalizationConstant.trackIDs.size()+"i");
+                //Log.e("track id size",PersonalizationConstant.trackIDs.size()+"i");
             }
 
             //if #tracks>3 automatically remove the extra tracks from trackIDS array
@@ -129,10 +129,13 @@ public class FilterTrackPreferencesService extends Service implements Response.E
             // Start UpdateArtistParametersService for updating artists parameters for personalization
             Intent updateArtistParametersIntent = new Intent(this, UpdateArtistParametersService.class);
             startService(updateArtistParametersIntent);
+            Log.e("UpdateArtistParameter","FilterTrack -> UpdateArtistParameter");
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        stopSelf();
+        Log.e("StopService","Stop FilterTrackService");
     }
 }

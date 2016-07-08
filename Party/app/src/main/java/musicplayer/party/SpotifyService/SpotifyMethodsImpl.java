@@ -1,4 +1,4 @@
-package musicplayer.party.SpotifyService;
+package musicplayer.party.spotifyService;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,9 +12,9 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
 import org.json.JSONObject;
 
-import musicplayer.party.Helper.CustomJSONObjectRequest;
-import musicplayer.party.Helper.CustomVolleyRequestQueue;
-import musicplayer.party.Helper.PartyConstant;
+import musicplayer.party.helper.CustomJSONObjectRequest;
+import musicplayer.party.helper.CustomVolleyRequestQueue;
+import musicplayer.party.helper.PartyConstant;
 
 /**
  * Created by YLTL on 6/24/16.

@@ -1,4 +1,4 @@
-package musicplayer.party.Personalization.Host;
+package musicplayer.party.personalization.host;
 
 import android.app.Service;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import musicplayer.party.Helper.CustomJSONObjectRequest;
-import musicplayer.party.Helper.CustomVolleyRequestQueue;
-import musicplayer.party.Helper.PersonalizationConstant;
-import musicplayer.party.SpotifyService.UserProfile;
+import musicplayer.party.helper.CustomJSONObjectRequest;
+import musicplayer.party.helper.CustomVolleyRequestQueue;
+import musicplayer.party.helper.PersonalizationConstant;
+import musicplayer.party.spotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -85,7 +85,7 @@ public class UpdateTrackParametersService extends Service implements Response.Er
 
     @Override
     public void onDestroy() {
-
+        Log.e("DestroyService","Destroy UpdateTrackService");
     }
 
 
@@ -121,7 +121,7 @@ public class UpdateTrackParametersService extends Service implements Response.Er
             if(numberOfTracks>3) {
                 Intent filterTrackIntent = new Intent(this, FilterTrackPreferencesService.class);
                 startService(filterTrackIntent);
-                Log.e("starting filter", "track service");
+                Log.e("start filter track", "UpdateTrack - filterTrack");
             }
             else{
 
@@ -130,10 +130,13 @@ public class UpdateTrackParametersService extends Service implements Response.Er
 
                 Intent updateArtistParametersIntent = new Intent(this, UpdateArtistParametersService.class);
                 startService(updateArtistParametersIntent);
+                Log.e("start updateArtists", "UpdateTrack -> UpdateArtists");
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        stopSelf();
+        Log.e("StopService","Stop UpdateTrackService");
     }
 }

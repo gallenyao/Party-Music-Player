@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import musicplayer.party.Personalization.Host.HostPersonalizationService;
+import musicplayer.party.personalization.host.HostPersonalizationService;
 
 /*
  *Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.

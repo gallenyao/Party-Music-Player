@@ -1,4 +1,4 @@
-package musicplayer.party.Personalization.Host;
+package musicplayer.party.personalization.host;
 
 import android.app.Service;
 import android.content.Intent;
@@ -14,11 +14,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import musicplayer.party.Helper.CustomJSONObjectRequest;
-import musicplayer.party.Helper.CustomVolleyRequestQueue;
-import musicplayer.party.Helper.PersonalizationConstant;
-import musicplayer.party.Personalization.PlaylistUpdate.RecommedationService;
-import musicplayer.party.SpotifyService.UserProfile;
+import musicplayer.party.helper.CustomJSONObjectRequest;
+import musicplayer.party.helper.CustomVolleyRequestQueue;
+import musicplayer.party.helper.PersonalizationConstant;
+import musicplayer.party.personalization.playlistUpdate.RecommedationService;
+import musicplayer.party.spotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -86,6 +86,7 @@ public class UpdateArtistParametersService extends Service implements Response.E
 
     @Override
     public void onDestroy() {
+        Log.e("DestroyService","Destroy UpdateArtistsService");
 
     }
 
@@ -112,7 +113,7 @@ public class UpdateArtistParametersService extends Service implements Response.E
             if(numberOfArtists>2){
                 Intent filterArtistIntent = new Intent(this, FilterArtistPreferenceService.class);
                 startService(filterArtistIntent);
-                Log.e("Starting filter","track service");
+                Log.e("Start filterArtists","UpdateArtists -> FilterArtists");
             }
             else{
                     for(int i=0;i<numberOfArtists;i++)
@@ -120,12 +121,14 @@ public class UpdateArtistParametersService extends Service implements Response.E
 
                     Intent recommnedationIntent = new Intent(this, RecommedationService.class);
                     startService(recommnedationIntent);
-                    Log.e("starting recom ", "service");
+                    Log.e("start recommendation ", "UpdateArtists -> Recommendation");
             }
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        stopSelf();
+        Log.e("StopService","Stop UpdateArtistsService");
     }
 }

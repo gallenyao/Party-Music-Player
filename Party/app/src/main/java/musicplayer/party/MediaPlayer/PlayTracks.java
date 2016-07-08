@@ -1,4 +1,4 @@
-package musicplayer.party.MediaPlayer;
+package musicplayer.party.mediaPlayer;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +9,7 @@ import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 
-import musicplayer.party.Helper.PartyConstant;
+import musicplayer.party.helper.PartyConstant;
 import musicplayer.party.R;
 
 public class PlayTracks extends AppCompatActivity implements ConnectionStateCallback, PlayerNotificationCallback {

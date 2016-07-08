@@ -1,4 +1,4 @@
-package musicplayer.party.SpotifyService;
+package musicplayer.party.spotifyService;
 
 import android.app.Activity;
 import android.content.Context;

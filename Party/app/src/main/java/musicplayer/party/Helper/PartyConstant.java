@@ -1,4 +1,4 @@
-package musicplayer.party.Helper;
+package musicplayer.party.helper;
 
 import com.spotify.sdk.android.player.Player;
 

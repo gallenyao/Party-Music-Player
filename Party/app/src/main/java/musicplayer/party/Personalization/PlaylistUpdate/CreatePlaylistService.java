@@ -1,4 +1,4 @@
-package musicplayer.party.Personalization.PlaylistUpdate;
+package musicplayer.party.personalization.playlistUpdate;
 
 import android.app.Service;
 import android.content.Intent;
@@ -13,10 +13,10 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import musicplayer.party.Helper.CustomJSONObjectRequest;
-import musicplayer.party.Helper.CustomVolleyRequestQueue;
-import musicplayer.party.Helper.PartyConstant;
-import musicplayer.party.SpotifyService.UserProfile;
+import musicplayer.party.helper.CustomJSONObjectRequest;
+import musicplayer.party.helper.CustomVolleyRequestQueue;
+import musicplayer.party.helper.PartyConstant;
+import musicplayer.party.spotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.

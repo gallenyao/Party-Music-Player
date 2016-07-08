@@ -1,4 +1,4 @@
-package musicplayer.party.Personalization.Host;
+package musicplayer.party.personalization.host;
 
 import android.app.Service;
 import android.content.Intent;
@@ -14,11 +14,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import musicplayer.party.Helper.CustomJSONObjectRequest;
-import musicplayer.party.Helper.CustomVolleyRequestQueue;
-import musicplayer.party.Helper.PersonalizationConstant;
-import musicplayer.party.Personalization.PlaylistUpdate.RecommedationService;
-import musicplayer.party.SpotifyService.UserProfile;
+import musicplayer.party.helper.CustomJSONObjectRequest;
+import musicplayer.party.helper.CustomVolleyRequestQueue;
+import musicplayer.party.helper.PersonalizationConstant;
+import musicplayer.party.personalization.playlistUpdate.RecommedationService;
+import musicplayer.party.spotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -85,7 +85,7 @@ public class FilterArtistPreferenceService extends Service implements Response.E
 
     @Override
     public void onDestroy() {
-
+        Log.e("DestroyService","Destroy FilterArtistsService");
     }
 
     @Override
@@ -108,13 +108,13 @@ public class FilterArtistPreferenceService extends Service implements Response.E
                  */
                 if (popularity >= PersonalizationConstant.popularity) {
                     PersonalizationConstant.artistIDs.add(artists.getJSONObject(i).getString("id"));
-                    Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
+                    //Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
                  }
             }
             //
             if(PersonalizationConstant.artistIDs.size()==0){
                 PersonalizationConstant.artistIDs.add(UserProfile.guestArtistsPreferences[0]);
-                Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
+                //Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
             }
 
             //If #artists>2, automatically remove the extra artists from artistIDs array
@@ -126,10 +126,12 @@ public class FilterArtistPreferenceService extends Service implements Response.E
             // Start RecommendationService
             Intent recommnedationIntent = new Intent(this, RecommedationService.class);
             startService(recommnedationIntent);
-            Log.e("starting recom ", "service");
+            Log.e("start recommendation ", "FilterArtists -> Recommendation");
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        stopSelf();
+        Log.e("StopService","Stop FilterArtistsService");
     }
 }

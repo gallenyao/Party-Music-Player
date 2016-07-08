@@ -10,15 +10,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".Personalization.Host.FilterArtistPreferenceService" />
-        <service android:name=".Personalization.Host.FilterTrackPreferencesService" />
-        <service android:name=".Personalization.Host.HostPersonalizationService" />
-        <service android:name=".Personalization.Host.UpdateArtistParametersService" />
-        <service android:name=".Personalization.Host.UpdateTrackParametersService" />
-        <service android:name=".Personalization.PlaylistUpdate.CreatePlaylistService" />
-        <service android:name=".SpotifyService.SpotifyRetrieveUserInfoService" />
-        <service android:name=".Personalization.PlaylistUpdate.AddTracksService" />
-        <service android:name=".Personalization.PlaylistUpdate.RecommedationService" />
+        <service android:name=".personalization.host.FilterArtistPreferenceService" />
+        <service android:name=".personalization.host.FilterTrackPreferencesService" />
+        <service android:name=".personalization.host.HostPersonalizationService" />
+        <service android:name=".personalization.host.UpdateArtistParametersService" />
+        <service android:name=".personalization.host.UpdateTrackParametersService" />
+        <service android:name=".personalization.playlistUpdate.CreatePlaylistService" />
+        <service android:name=".spotifyService.SpotifyRetrieveUserInfoService" />
+        <service android:name=".personalization.playlistUpdate.AddTracksService" />
+        <service android:name=".personalization.playlistUpdate.RecommedationService" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -27,16 +27,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SpotifyService.InstructionActivity" />
+        <activity android:name=".spotifyService.InstructionActivity" />
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".SpotifyService.SpotifyRetrieveArtists" />
+        <activity android:name=".spotifyService.SpotifyRetrieveArtists" />
         <activity android:name=".PartyHome" />
-        <activity android:name=".SpotifyService.SpotifyRetrieveTracks" />
-        <activity android:name=".Personalization.PlaylistUpdate.CreatePlaylistService" />
-        <activity android:name=".Personalization.PlaylistUpdate.AddTracksService" />
-        <activity android:name=".MediaPlayer.PlayTracks"></activity>
+        <activity android:name=".spotifyService.SpotifyRetrieveTracks" />
+        <activity android:name=".personalization.playlistUpdate.CreatePlaylistService" />
+        <activity android:name=".personalization.playlistUpdate.AddTracksService" />
+        <activity android:name=".mediaPlayer.PlayTracks"></activity>
     </application>
 
 </manifest>

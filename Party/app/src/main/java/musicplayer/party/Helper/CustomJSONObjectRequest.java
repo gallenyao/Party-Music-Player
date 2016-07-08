@@ -1,4 +1,4 @@
-package musicplayer.party.Helper;
+package musicplayer.party.helper;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -16,8 +16,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import musicplayer.party.Helper.PartyConstant;
 
 public class CustomJSONObjectRequest extends JsonObjectRequest {
 

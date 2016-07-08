@@ -1,12 +1,12 @@
-package musicplayer.party.Personalization.Host;
+package musicplayer.party.personalization.host;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import musicplayer.party.SpotifyService.SpotifyRetrieveUserInfoService;
-import musicplayer.party.SpotifyService.UserProfile;
+import musicplayer.party.spotifyService.SpotifyRetrieveUserInfoService;
+import musicplayer.party.spotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -41,7 +41,11 @@ public class HostPersonalizationService extends Service  {
 
         Intent updateTrackParametersIntent = new Intent(this, UpdateTrackParametersService.class);
         startService(updateTrackParametersIntent);
-        Log.e("starting track ", "host service");
+        Log.e("UpdateTrackParameter", "Host -> UpdateTrackParameter");
+
+
+        stopSelf(startId);
+        Log.e("StopService","Stop HostService");
 
         return START_STICKY;
     }
@@ -54,6 +58,7 @@ public class HostPersonalizationService extends Service  {
 
     @Override
     public void onDestroy() {
+        Log.e("DestroyService","Destroy HostService");
 
     }
 

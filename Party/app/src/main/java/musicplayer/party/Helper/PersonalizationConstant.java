@@ -1,4 +1,4 @@
-package musicplayer.party.Helper;
+package musicplayer.party.helper;
 
 import java.util.ArrayList;
 import java.util.List;

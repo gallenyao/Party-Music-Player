@@ -13,10 +13,10 @@ import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.Spotify;
 
-import musicplayer.party.Helper.PartyConstant;
-import musicplayer.party.SpotifyService.InstructionActivity;
-import musicplayer.party.SpotifyService.SpotifyAssembly;
-import musicplayer.party.SpotifyService.UserProfile;
+import musicplayer.party.helper.PartyConstant;
+import musicplayer.party.spotifyService.InstructionActivity;
+import musicplayer.party.spotifyService.SpotifyAssembly;
+import musicplayer.party.spotifyService.UserProfile;
 
 
 /**
