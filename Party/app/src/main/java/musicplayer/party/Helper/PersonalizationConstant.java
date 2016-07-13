@@ -1,5 +1,7 @@
 package musicplayer.party.helper;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +39,11 @@ public class PersonalizationConstant {
      * String array to store artist IDs for Recommendation API.
      */
     public static List<String> artistIDs = new ArrayList<String>();
+
+    public static boolean flag1 = false;
+
+    public static Context context = null;
+
 
 
 }

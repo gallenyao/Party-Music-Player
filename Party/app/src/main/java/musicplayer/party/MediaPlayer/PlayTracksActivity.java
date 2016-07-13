@@ -12,10 +12,10 @@ import com.spotify.sdk.android.player.PlayerState;
 import musicplayer.party.helper.PartyConstant;
 import musicplayer.party.R;
 
-public class PlayTracks extends AppCompatActivity implements ConnectionStateCallback, PlayerNotificationCallback {
+public class PlayTracksActivity extends AppCompatActivity implements ConnectionStateCallback, PlayerNotificationCallback {
 
     private Button resumeButton;
-    private int currentTrack=0;
+    //private int currentTrack=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

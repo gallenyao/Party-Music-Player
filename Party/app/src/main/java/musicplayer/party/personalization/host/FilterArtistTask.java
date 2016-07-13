@@ -1,8 +1,7 @@
 package musicplayer.party.personalization.host;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -14,48 +13,52 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import musicplayer.party.personalization.playlistUpdate.RecommendationTask;
 import musicplayer.party.helper.CustomJSONObjectRequest;
 import musicplayer.party.helper.CustomVolleyRequestQueue;
 import musicplayer.party.helper.PersonalizationConstant;
-import musicplayer.party.personalization.playlistUpdate.RecommedationService;
 import musicplayer.party.spotifyService.UserProfile;
 
 /**
- * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
- * Name: FilterArtistPerefrencesService
- * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
- * The java class is for filtering the user's artists preferences based on personalization parameter.
+ * Created by YLTL on 7/12/16.
  */
-public class FilterArtistPreferenceService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
+public class FilterArtistTask extends AsyncTask<Void, Integer, Void> implements Response.ErrorListener, Response.Listener<JSONObject> {
 
-    private RequestQueue mQueue; //Request queue that will be used to send request to Spotify.
+    /**
+     * Request queue that will be used to send request to Spotify.
+     */
+    private RequestQueue mQueue;
     private int numberOfArtists;
-    private static final String REQUEST_TAG = "FilterArtistPreferencesService";
+    private static final String REQUEST_TAG = "UpdateArtistParametersService";
+    private Context mContext;
+
 
     @Override
-    public void onCreate() {
+    protected void onPreExecute() {
 
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    protected Void doInBackground(Void... params) {
+        mQueue = CustomVolleyRequestQueue.getInstance(this.mContext).getRequestQueue();
 
-        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
-
-        String url = "https://api.spotify.com/v1/artists/?ids="; // Spotify web API url to be called to retrieve metadata about user preferred artist
+        /**
+         * Spotify web API url to be called to retrieve metadata about user preferred artist
+         */
+        String url = "https://api.spotify.com/v1/artists/?ids=";
 
         /**
          * Traversing the guestArtistsPreferences array and append the artist IDs at the end of url to retrieve their metadata
          */
-        for(int i=0; i<UserProfile.guestArtistsPreferences.length;i++){
+        for(int i = 0; i < UserProfile.guestArtistsPreferences.length; i++){
             if(UserProfile.guestArtistsPreferences[i]!=null){
                 url = url + UserProfile.guestArtistsPreferences[i]+",";
                 numberOfArtists++;
-                Log.e("numofart","i"+numberOfArtists);
+                Log.e("numOfArtist", "i" + numberOfArtists);
             }
 
         }
-        url = url.substring(0,url.length()-1);
+        url = url.substring(0, url.length()-1);
 
         /**
          * Create a JSON Request using CustomJSONObject function that takes 4 parameters:-
@@ -70,7 +73,16 @@ public class FilterArtistPreferenceService extends Service implements Response.E
         jsonRequest.setTag(REQUEST_TAG);
         mQueue.add(jsonRequest); // add JSON request to the queue
 
-        return START_STICKY;
+        return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+    }
+
+    @Override
+    protected void onPostExecute(Void result) {
+
     }
 
     @Override
@@ -79,19 +91,12 @@ public class FilterArtistPreferenceService extends Service implements Response.E
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.e("DestroyService","Destroy FilterArtistsService");
-    }
-
-    @Override
     public void onResponse(JSONObject response) {
 
-        int count =0,popularity; // stores the popularity metadata about each artist retrieved from Spotify response
+        /**
+         * Stores the popularity metadata about each artist retrieved from Spotify response
+         */
+        int popularity;
         JSONObject jsonresponse = (JSONObject)response; //Store the JSON response retrieved from Spotify web API
 
         try {
@@ -100,7 +105,7 @@ public class FilterArtistPreferenceService extends Service implements Response.E
             /**
              * Traverse the JSONArray artists to retrieve the metadata about artists
              */
-            for(int i=0;i<numberOfArtists;i++){
+            for(int i = 0; i < numberOfArtists; i++){
                 popularity = Integer.parseInt(artists.getJSONObject(i).getString("popularity"));
                 /**
                  * Determine if the artist meets specified popularity in PersonalizationConstant class
@@ -109,29 +114,30 @@ public class FilterArtistPreferenceService extends Service implements Response.E
                 if (popularity >= PersonalizationConstant.popularity) {
                     PersonalizationConstant.artistIDs.add(artists.getJSONObject(i).getString("id"));
                     //Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
-                 }
+                }
             }
             //
-            if(PersonalizationConstant.artistIDs.size()==0){
+            if(PersonalizationConstant.artistIDs.size() == 0){
                 PersonalizationConstant.artistIDs.add(UserProfile.guestArtistsPreferences[0]);
                 //Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
             }
 
-            //If #artists>2, automatically remove the extra artists from artistIDs array
-             if(PersonalizationConstant.artistIDs.size()>2){
-                for(int i= PersonalizationConstant.artistIDs.size()-1; i>1; i--)
+            /**
+             * If #artists>2, automatically remove the extra artists from artistIDs array
+             */
+            if(PersonalizationConstant.artistIDs.size() > 2){
+                for(int i = PersonalizationConstant.artistIDs.size()-1; i > 1; i--)
                     PersonalizationConstant.artistIDs.remove(i);
             }
 
-            // Start RecommendationService
-            Intent recommnedationIntent = new Intent(this, RecommedationService.class);
-            startService(recommnedationIntent);
+            new RecommendationTask().execute();
             Log.e("start recommendation ", "FilterArtists -> Recommendation");
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        stopSelf();
-        Log.e("StopService","Stop FilterArtistsService");
+        //stopSelf();
+        //Log.e("StopService","Stop FilterArtistsService");
     }
+
 }

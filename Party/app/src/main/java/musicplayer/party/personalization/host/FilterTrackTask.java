@@ -1,8 +1,7 @@
 package musicplayer.party.personalization.host;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -20,39 +19,41 @@ import musicplayer.party.helper.PersonalizationConstant;
 import musicplayer.party.spotifyService.UserProfile;
 
 /**
- * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
- * Name: FilterTrackPerefrencesService
- * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
- * The java class is for filtering the user's tracks preferences based on personalization parameter.
+ * Created by YLTL on 7/12/16.
  */
-public class FilterTrackPreferencesService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
+public class FilterTrackTask extends AsyncTask<Void, Integer, Void> implements Response.ErrorListener, Response.Listener<JSONObject> {
 
-    private RequestQueue mQueue; //Request queue that will be used to send request to Spotify.
+    /**
+     * Request queue that will be used to send request to Spotify.
+     */
+    private RequestQueue mQueue;
     private int numberOfTracks;
     private static final String REQUEST_TAG = "FilterTrackPreferencesService";
+    private Context mContext;
 
     @Override
-    public void onCreate() {
+    protected void onPreExecute() {
 
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
+    protected Void doInBackground(Void... params) {
+        mQueue = CustomVolleyRequestQueue.getInstance(this.mContext)
+                .getRequestQueue();
 
         String url = "https://api.spotify.com/v1/audio-features/?ids="; // Spotify web API url to be called to retrieve metadata about user preferred tracks
 
         /**
          * Traversing the guestTracksPreferences array and append the track IDs at the end of url to retrieve their metadata
          */
-        for(int i=0; i<UserProfile.guestTracksPreferences.length;i++){
-            if(UserProfile.guestTracksPreferences[i]!=null){
-                url = url + UserProfile.guestTracksPreferences[i]+",";
+        for (int i = 0; i < UserProfile.guestTracksPreferences.length; i++) {
+            if (UserProfile.guestTracksPreferences[i] != null) {
+                url = url + UserProfile.guestTracksPreferences[i] + ",";
                 numberOfTracks++; // counting the number of tracks in guestTracksPreferences array
             }
         }
-        url = url.substring(0,url.length()-1); // appending the extra ',' at the end of url
+
+        url = url.substring(0, url.length()-1); // appending the extra ',' at the end of url
 
         /**
          * Create a JSON Request using CustomJSONObject function that takes 4 parameters:-
@@ -67,7 +68,16 @@ public class FilterTrackPreferencesService extends Service implements Response.E
         jsonRequest.setTag(REQUEST_TAG);
         mQueue.add(jsonRequest); // add JSON request to the queue
 
-        return START_STICKY;
+        return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+    }
+
+    @Override
+    protected void onPostExecute(Void result) {
+
     }
 
     @Override
@@ -76,20 +86,11 @@ public class FilterTrackPreferencesService extends Service implements Response.E
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.e("DestroyService","Destroy FilterTrackService");
-    }
-
-    @Override
     public void onResponse(JSONObject response) {
-        /**
-         * Store the  energy, danceability, valence, instrumentalness metadata about each track retrieved from Spotify response
-         */
+
+    /**
+     * Store the  energy, danceability, valence, instrumentalness metadata about each track retrieved from Spotify response
+     */
         double energy, danceability, valence, instrumentalness;
         JSONObject jsonresponse = (JSONObject)response; //Store the JSON response retrieved from Spotify web API
 
@@ -98,7 +99,7 @@ public class FilterTrackPreferencesService extends Service implements Response.E
             /**
              * Traverse the JSONArray audio_features to retrieve the metadata about tracks
              */
-            for(int i=0;i<numberOfTracks;i++){
+            for(int i = 0; i < numberOfTracks; i++){
                 energy = Double.parseDouble(audio_features.getJSONObject(i).getString("energy"));
                 danceability = Double.parseDouble(audio_features.getJSONObject(i).getString("danceability"));
                 valence = Double.parseDouble(audio_features.getJSONObject(i).getString("valence"));
@@ -114,28 +115,30 @@ public class FilterTrackPreferencesService extends Service implements Response.E
                 }
             }
 
-            // If trackIDs array is empty, add any track in it so that it can be used for personalization
+            /**
+             * If trackIDs array is empty, add any track in it so that it can be used for personalization
+             */
             if(PersonalizationConstant.trackIDs.size()==0){
                 PersonalizationConstant.trackIDs.add(UserProfile.guestTracksPreferences[0]);
                 //Log.e("track id size",PersonalizationConstant.trackIDs.size()+"i");
             }
 
-            //if #tracks>3 automatically remove the extra tracks from trackIDS array
+            /**
+             * If #tracks>3 automatically remove the extra tracks from trackIDS array
+             */
             if(PersonalizationConstant.trackIDs.size()>3){
                 for(int i= PersonalizationConstant.trackIDs.size()-1;i >2;i--)
                     PersonalizationConstant.trackIDs.remove(i);
             }
 
-            // Start UpdateArtistParametersService for updating artists parameters for personalization
-            Intent updateArtistParametersIntent = new Intent(this, UpdateArtistParametersService.class);
-            startService(updateArtistParametersIntent);
+            new UpdateArtistParaTask().execute();
             Log.e("UpdateArtistParameter","FilterTrack -> UpdateArtistParameter");
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        stopSelf();
-        Log.e("StopService","Stop FilterTrackService");
+        //Log.e("StopService","Stop FilterTrackService");
     }
+
 }

@@ -1,8 +1,7 @@
 package musicplayer.party.spotifyService;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -16,25 +15,26 @@ import org.json.JSONObject;
 import musicplayer.party.helper.CustomJSONObjectRequest;
 import musicplayer.party.helper.CustomVolleyRequestQueue;
 import musicplayer.party.helper.PartyConstant;
-import musicplayer.party.personalization.playlistUpdate.CreatePlaylistService;
+import musicplayer.party.personalization.playlistUpdate.CreatePlaylistTask;
 
 /**
- * Created by Nikita Jain on 7/2/2016.
+ * Created by YLTL on 7/13/16.
  */
-public class SpotifyRetrieveUserInfoService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
+public class RetrieveUserInfoTask extends AsyncTask<Void, Integer, Void> implements Response.ErrorListener, Response.Listener<JSONObject> {
 
     private RequestQueue mQueue;
     private static final String REQUEST_TAG = "RetrieveUserInfoService";
+    private Context mContext;
+
 
     @Override
-    public void onCreate() {
+    protected void onPreExecute() {
 
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext())
+    protected Void doInBackground(Void... params) {
+        mQueue = CustomVolleyRequestQueue.getInstance(this.mContext)
                 .getRequestQueue();
 
         String url = "https://api.spotify.com/v1/me"; // Spotify web API url to be called to retrieve metadata about user preferred artist
@@ -52,22 +52,20 @@ public class SpotifyRetrieveUserInfoService extends Service implements Response.
                 new JSONObject(), this, this);
         jsonRequest.setTag(REQUEST_TAG);
         mQueue.add(jsonRequest); // add JSON request to the queue
-
-        return START_STICKY;
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
         return null;
     }
 
     @Override
-    public void onDestroy() {
+    protected void onProgressUpdate(Integer... values) {
+    }
+
+    @Override
+    protected void onPostExecute(Void result) {
+
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
 
     }
 
@@ -77,19 +75,18 @@ public class SpotifyRetrieveUserInfoService extends Service implements Response.
         JSONObject jsonresponse = (JSONObject)response;
         try {
 
-            String  id = jsonresponse.getString("id");
+            String id = jsonresponse.getString("id");
             UserProfile.userID = id;
-            Log.e("userid1234",id);
+            Log.e("userID1234",id);
 
             if(PartyConstant.partyPlaylistID == null) {
-                Intent createPlaylistIntent = new Intent(this, CreatePlaylistService.class);
-                startService(createPlaylistIntent);
+                new CreatePlaylistTask().execute();
             }
 
 
         } catch (JSONException e) {
-        e.printStackTrace();
+            e.printStackTrace();
+        }
     }
 
-    }
 }

@@ -1,8 +1,7 @@
 package musicplayer.party.personalization.playlistUpdate;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -19,36 +18,39 @@ import musicplayer.party.helper.PartyConstant;
 import musicplayer.party.spotifyService.UserProfile;
 
 /**
- * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
- * Name: CreatePlaylistService
- * Author: Litianlong Yao, Nikita Jain, Zhimin Tang
- * The java class is for creating a playlist for party.
+ * Created by YLTL on 7/13/16.
  */
-
-public class CreatePlaylistService extends Service implements Response.ErrorListener, Response.Listener<JSONObject> {
-
+public class CreatePlaylistTask extends AsyncTask<Void, Integer, Void> implements Response.ErrorListener, Response.Listener<JSONObject> {
 
     public static final String REQUEST_TAG = "CreatePlaylistService";
-    private RequestQueue mQueue; //Request queue that will be used to send request to Spotify.
+    /**
+     * Request queue that will be used to send request to Spotify.
+     */
+    private RequestQueue mQueue;
+    private Context mContext;
+
 
     @Override
-    public void onCreate() {
+    protected void onPreExecute() {
 
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    protected Void doInBackground(Void... params) {
 
-        mQueue = CustomVolleyRequestQueue.getInstance(this.getApplicationContext()).getRequestQueue();
-        String url = "https://api.spotify.com/v1/users/" + UserProfile.userID + "/playlists" ; // Spotify web API url to be called create playlist
+        mQueue = CustomVolleyRequestQueue.getInstance(this.mContext).getRequestQueue();
+        /**
+         * Spotify web API url to be called create playlist
+         */
+        String url = "https://api.spotify.com/v1/users/" + UserProfile.userID + "/playlists" ;
 
-        JSONObject params = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
         try {
-            params.put("name","Party Playlist");
+            jsonObject.put("name","Party Playlist");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("JSON Object",params.toString());
+        Log.d("JSON Object",jsonObject.toString());
         /**
          * Create a JSON Request using CustomJSONObject function that takes 4 parameters:-
          * 1. Request method type i.e. a GEt ot a POST request type
@@ -58,11 +60,22 @@ public class CreatePlaylistService extends Service implements Response.ErrorList
          */
         final CustomJSONObjectRequest jsonRequest = new CustomJSONObjectRequest(Request.Method
                 .POST, url,
-                params, this, this);
+                jsonObject, this, this);
 
         jsonRequest.setTag(REQUEST_TAG);
         mQueue.add(jsonRequest); // add JSON request to the queue
-        return START_STICKY;
+
+        return null;
+    }
+
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+    }
+
+    @Override
+    protected void onPostExecute(Void result) {
+
     }
 
     @Override
@@ -71,27 +84,16 @@ public class CreatePlaylistService extends Service implements Response.ErrorList
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public void onDestroy() {
-
-    }
-
-    @Override
     public void onResponse(JSONObject response) {
-
         JSONObject jsonresponse = (JSONObject)response; // store the JSONresponse retrieved from Spotify web API
 
         try {
             PartyConstant.partyPlaylistID = jsonresponse.getString("id"); // store the playlist ID
+            Log.e("playlist created","i");
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
 }
