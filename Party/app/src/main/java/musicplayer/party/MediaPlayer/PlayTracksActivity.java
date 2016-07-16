@@ -3,25 +3,35 @@ package musicplayer.party.mediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 
-import musicplayer.party.helper.PartyConstant;
 import musicplayer.party.R;
+import musicplayer.party.helper.PartyConstant;
 
 public class PlayTracksActivity extends AppCompatActivity implements ConnectionStateCallback, PlayerNotificationCallback {
 
     private Button resumeButton;
-    //private int currentTrack=0;
+    private ListView playlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_tracks);
         resumeButton = (Button) findViewById(R.id.resume);
+        playlist = (ListView) findViewById(R.id.playlist);
+
+
+        // Create The Adapter with passing ArrayList as 3rd parameter
+        ArrayAdapter<String> arrayAdapter =
+                new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, PartyConstant.partyPlaylistTracksName );
+        // Set The Adapter
+        playlist.setAdapter(arrayAdapter);
 
     }
 
@@ -41,13 +51,11 @@ public class PlayTracksActivity extends AppCompatActivity implements ConnectionS
     }
 
     public void next(View view){
-
         PartyConstant.mPlayer.skipToNext();
     }
 
     @Override
     public void onLoggedIn() {
-
     }
 
     @Override

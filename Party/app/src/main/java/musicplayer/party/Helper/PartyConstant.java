@@ -28,6 +28,7 @@ public class PartyConstant {
      * String array to store track IDs for common playlist.
      */
     public static List<String> partyPlaylistTracks = new ArrayList<String>();
+    public static List<String> partyPlaylistTracksName = new ArrayList<String>();
 
     public static Player mPlayer;
 }
