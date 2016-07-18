@@ -114,7 +114,7 @@ public class RecommendationTask extends AsyncTask<Void, Integer, Void> implement
                     Log.e("print item",items.getJSONObject(i).getString("name"));
                     Log.e("print track array",PartyConstant.partyPlaylistTracks.size()+"i");
                     PartyConstant.partyPlaylistTracks.add(len+ i,items.getJSONObject(i).getString("uri"));
-                    PartyConstant.partyPlaylistTracks.add(len+ i,items.getJSONObject(i).getString("name"));
+                    PartyConstant.partyPlaylistTracksName.add(len+ i,items.getJSONObject(i).getString("name"));
                 }
 
                 new AddTrackTask().execute();

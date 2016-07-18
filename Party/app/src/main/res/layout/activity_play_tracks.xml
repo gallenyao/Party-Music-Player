@@ -35,9 +35,8 @@
         android:id="@+id/resume"
         android:onClick="resume"
         android:background="@android:drawable/ic_media_play"
-        android:layout_toStartOf="@+id/next"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignTop="@+id/pause"
+        android:layout_alignParentStart="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -46,16 +45,15 @@
         android:id="@+id/next"
         android:onClick="next"
         android:background="@android:drawable/ic_media_next"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="50dp" />
+        android:layout_alignTop="@+id/play"
+        android:layout_alignEnd="@+id/playlist" />
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         android:id="@+id/playlist"
+        android:choiceMode="none"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:choiceMode="none" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
