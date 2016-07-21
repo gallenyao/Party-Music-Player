@@ -39,4 +39,12 @@
         android:layout_below="@+id/loginBut"
         android:layout_alignEnd="@+id/loginBut"
         android:layout_marginTop="78dp" />
+
+    <Button
+        android:id="@+id/bezirkLaunchButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Bezirk Test" />
 </RelativeLayout>

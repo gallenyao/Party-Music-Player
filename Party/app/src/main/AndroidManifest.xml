@@ -28,6 +28,16 @@
         <activity android:name=".personalization.playlistUpdate.CreatePlaylistService" />
         <activity android:name=".personalization.playlistUpdate.AddTracksService" />
         <activity android:name=".mediaPlayer.PlayTracksActivity"></activity>
+
+        <!-- Bezirk Activity-->
+        <activity android:name=".bezirk.BezirkActivity" />
+        <!-- Bezirk Intent Receiver for receiving messages from the Bezirk Application-->
+        <receiver android:name="com.bezirk.middleware.proxy.android.IntentMessageReceiver">
+            <intent-filter>
+                <action android:name="com.bosch.upa.uhu.broadcast" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -21,6 +21,7 @@ android {
 
 repositories {
     mavenCentral()
+    maven { url "https://bezirk.artifactoryonline.com/bezirk/libs-release-local/" } //bezirk artifacts repo
     flatDir {
         dirs 'libs'
     }
@@ -36,4 +37,10 @@ dependencies {
     compile project(':volley')
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
+
+
+    /*Bezirk Dependencies*/
+    compile(group: 'com.bezirk', name: 'proxy', version: '3.0.0-alpha+014', ext: 'aar')
+    compile(group: 'com.bezirk', name: 'bezirk-middleware-api', version: '3.0.0-alpha+014')
+    compile(group: 'com.bezirk', name: 'bezirk', version: '3.0.0-alpha+014')
 }

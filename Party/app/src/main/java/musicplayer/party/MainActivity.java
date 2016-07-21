@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
@@ -13,6 +14,7 @@ import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.Spotify;
 
+import musicplayer.party.bezirk.BezirkActivity;
 import musicplayer.party.helper.PartyConstant;
 import musicplayer.party.spotifyService.InstructionActivity;
 import musicplayer.party.spotifyService.SpotifyAssembly;
@@ -26,10 +28,20 @@ import musicplayer.party.spotifyService.UserProfile;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private Button bezirkLaunchButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bezirkLaunchButton = (Button) findViewById(R.id.bezirkLaunchButton);
+        bezirkLaunchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BezirkActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
