@@ -78,9 +78,9 @@ public class AddTrackTask extends AsyncTask<Void, Integer, Void> implements Resp
     @Override
     protected void onPostExecute(Void result) {
 
-        Intent intent_name = new Intent(mContext, PlayTracksActivity.class);
-        intent_name.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent_name);
+//        Intent intent_name = new Intent(mContext, PlayTracksActivity.class);
+//        intent_name.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        mContext.startActivity(intent_name);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class AddTrackTask extends AsyncTask<Void, Integer, Void> implements Resp
         JSONObject jsonresponse = (JSONObject)response; // store the JSONresponse retrieved from Spotify web API
 
         try {
-            String  id = jsonresponse.getString("snapshot_id"); // Check if the tracks were successfully added
+            String id = jsonresponse.getString("snapshot_id"); // Check if the tracks were successfully added
             Log.e("addTrack_ID", id);
 
         } catch (JSONException e) {

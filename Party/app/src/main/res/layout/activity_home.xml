@@ -17,4 +17,22 @@
         android:id="@+id/textView3"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Be a Guest"
+        android:id="@+id/guest"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Be a HostButton"
+        android:id="@+id/host"
+        android:layout_below="@+id/guest"
+        android:layout_alignStart="@+id/guest" />
 </RelativeLayout>
