@@ -50,14 +50,27 @@ public class FilterArtistTask extends AsyncTask<Void, Integer, Void> implements 
         /**
          * Traversing the guestArtistsPreferences array and append the artist IDs at the end of url to retrieve their metadata
          */
-        for(int i = 0; i < UserProfile.guestArtistsPreferences.length; i++){
-            if(UserProfile.guestArtistsPreferences[i]!=null){
-                url = url + UserProfile.guestArtistsPreferences[i]+",";
-                numberOfArtists++;
-                Log.e("numOfArtist", "i" + numberOfArtists);
-            }
+//        for(int i = 0; i < UserProfile.guestArtistsPreferences.length; i++){
+//            if(UserProfile.guestArtistsPreferences[i]!=null){
+//                url = url + UserProfile.guestArtistsPreferences[i]+",";
+//                numberOfArtists++;
+//                Log.e("numOfArtist", "i" + numberOfArtists);
+//            }
+//
+//        }
 
+
+
+        for (int i = 0; i < UserProfile.artistsPreferences.get(UserProfile.userCounter).length; i++) {
+            if (UserProfile.artistsPreferences.get(UserProfile.userCounter)[i] != null) {
+                url = url + UserProfile.artistsPreferences.get(UserProfile.userCounter)[i] + ",";
+                numberOfArtists++;
+            }
         }
+
+
+
+
         url = url.substring(0, url.length()-1);
 
         /**
@@ -118,7 +131,8 @@ public class FilterArtistTask extends AsyncTask<Void, Integer, Void> implements 
             }
             //
             if(PersonalizationConstant.artistIDs.size() == 0){
-                PersonalizationConstant.artistIDs.add(UserProfile.guestArtistsPreferences[0]);
+                //PersonalizationConstant.artistIDs.add(UserProfile.guestArtistsPreferences[0]);
+                PersonalizationConstant.artistIDs.add(UserProfile.artistsPreferences.get(UserProfile.userCounter)[0]);
                 //Log.e("artist id size", PersonalizationConstant.artistIDs.size()+"i");
             }
 

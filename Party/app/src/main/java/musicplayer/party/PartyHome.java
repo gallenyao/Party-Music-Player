@@ -37,6 +37,7 @@ import musicplayer.party.helper.PartyConstant;
 import musicplayer.party.mediaPlayer.PlayTracksActivity;
 import musicplayer.party.personalization.host.HostPersonalizationTask;
 import musicplayer.party.helper.PersonalizationConstant;
+import musicplayer.party.spotifyService.UserProfile;
 
 /**
  * Copyright: Team Music Player from MSIT-SE in Carnegie Mellon University.
@@ -62,6 +63,8 @@ public class PartyHome extends AppCompatActivity {
      */
     private boolean isGuest = false;
 
+    private boolean joined = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +89,7 @@ public class PartyHome extends AppCompatActivity {
                 /**
                  * Start Host Personalization.
                  */
-                new HostPersonalizationTask().execute();
+               new HostPersonalizationTask().execute();
             }
         });
 
@@ -150,11 +153,10 @@ public class PartyHome extends AppCompatActivity {
 
         @Override
         public void receiveEvent(String s, Event event, final ZirkEndPoint zirkEndPoint) {
-            Log.e("#### Receive Event Work","  GuestListener");
+            //Log.e("#### Receive Event Work","  GuestListener");
             if (event instanceof Invite) {
                 Invite invite = (Invite) event;
-                //printInfo("Invite Message received\n");
-                Log.e("Invite mes received ", "ada");
+                Log.e("Invite mes received ", "invite");
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -166,16 +168,15 @@ public class PartyHome extends AppCompatActivity {
                  * Get playlist info from host.
                  */
                 PlaylistInfo playlistInfo = (PlaylistInfo) event;
-                Log.e("Receive playlistID: ", playlistInfo.TOPIC);
-                //printInfo("PlaylistInfo Message received\n");
-                PartyConstant.partyPlaylistID = playlistInfo.TOPIC;
+                Log.e("Receive playlistID: ", playlistInfo.ppid);
+                PartyConstant.partyPlaylistID = playlistInfo.ppid;
 
                 /**
                  * Try to start the playing track activity.
                  */
-                Intent intent_name = new Intent(PersonalizationConstant.context, PlayTracksActivity.class);
-                intent_name.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                PersonalizationConstant.context.startActivity(intent_name);
+                //Intent intent_name = new Intent(PersonalizationConstant.context, PlayTracksActivity.class);
+                //intent_name.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //PersonalizationConstant.context.startActivity(intent_name);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -183,11 +184,10 @@ public class PartyHome extends AppCompatActivity {
                     }
                 }, 500);
             } else if (event instanceof PreferencesAccepted) {
+                //Log.e("Invite mes received ", "invite");
                 PreferencesAccepted preferencesAccepted = (PreferencesAccepted) event;
-                //printInfo("PreferencesAccepted Message received\n");
             } else if (event instanceof End) {
                 End end = (End) event;
-                //printInfo("End Message received\n");
             }
         }
 
@@ -232,11 +232,10 @@ public class PartyHome extends AppCompatActivity {
 
         @Override
         public void receiveEvent(String s, Event event, final ZirkEndPoint zirkEndPoint) {
-            Log.e("#### Receive Event Work","  HostListener");
+            //Log.e("#### Receive Event Work","  HostListener");
             if (event instanceof IdentifyHost) {
                 Log.e("~~@@ Receive Event ~~@@","[ IdentifyHost ]");
                 IdentifyHost identifyHost = (IdentifyHost) event;
-                //printInfo("????   IdentifyHost Message received\n");
                 Log.e("Invite mes received ", "ada");
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -247,16 +246,39 @@ public class PartyHome extends AppCompatActivity {
 
             } else if (event instanceof Join) {
                 Join join = (Join) event;
-                //printInfo("Join Message received\n");
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        bezirk.sendEvent(zirkEndPoint, new PlaylistInfo());
-                    }
-                }, 500);
+
+                Log.e("Join mes received ", "join");
+                if(!joined) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            bezirk.sendEvent(zirkEndPoint, new PlaylistInfo());
+                        }
+                    }, 500);
+                }
+
+                joined = true;
+
+
             } else if (event instanceof SharePreferences) {
+
+                Log.e("SharePreference done","Host received pref from guest");
+
                 SharePreferences sharePreferences = (SharePreferences) event;
-                //printInfo("SharePreferences Message received\n");
+
+                UserProfile.addTracksList(sharePreferences.trackPreference);
+                Log.e("trackPref size ", String.valueOf(UserProfile.tracksPreferences.size()));
+
+                UserProfile.addArtistList(sharePreferences.artistPreference);
+                Log.e("artistPref size ", String.valueOf(UserProfile.artistsPreferences.size()));
+
+
+                new HostPersonalizationTask().execute();
+
+                //UserProfile.userCounter++;
+
+
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

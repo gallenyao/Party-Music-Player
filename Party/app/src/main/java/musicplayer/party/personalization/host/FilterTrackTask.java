@@ -46,12 +46,28 @@ public class FilterTrackTask extends AsyncTask<Void, Integer, Void> implements R
         /**
          * Traversing the guestTracksPreferences array and append the track IDs at the end of url to retrieve their metadata
          */
-        for (int i = 0; i < UserProfile.guestTracksPreferences.length; i++) {
-            if (UserProfile.guestTracksPreferences[i] != null) {
-                url = url + UserProfile.guestTracksPreferences[i] + ",";
-                numberOfTracks++; // counting the number of tracks in guestTracksPreferences array
+//        for (int i = 0; i < UserProfile.guestTracksPreferences.length; i++) {
+//            if (UserProfile.guestTracksPreferences[i] != null) {
+//                url = url + UserProfile.guestTracksPreferences[i] + ",";
+//                numberOfTracks++; // counting the number of tracks in guestTracksPreferences array
+//            }
+//        }
+
+
+
+
+
+
+
+
+        for (int i = 0; i < UserProfile.tracksPreferences.get(UserProfile.userCounter).length; i++) {
+            if (UserProfile.tracksPreferences.get(UserProfile.userCounter)[i] != null) {
+                url = url + UserProfile.tracksPreferences.get(UserProfile.userCounter)[i] + ",";
+                numberOfTracks++;
             }
         }
+
+
 
         url = url.substring(0, url.length()-1); // appending the extra ',' at the end of url
 
@@ -119,7 +135,8 @@ public class FilterTrackTask extends AsyncTask<Void, Integer, Void> implements R
              * If trackIDs array is empty, add any track in it so that it can be used for personalization
              */
             if(PersonalizationConstant.trackIDs.size()==0){
-                PersonalizationConstant.trackIDs.add(UserProfile.guestTracksPreferences[0]);
+                //PersonalizationConstant.trackIDs.add(UserProfile.guestTracksPreferences[0]);
+                PersonalizationConstant.trackIDs.add(UserProfile.tracksPreferences.get(UserProfile.userCounter)[0]);
                 //Log.e("track id size",PersonalizationConstant.trackIDs.size()+"i");
             }
 

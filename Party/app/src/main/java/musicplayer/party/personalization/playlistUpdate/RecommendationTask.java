@@ -17,6 +17,7 @@ import musicplayer.party.helper.CustomJSONObjectRequest;
 import musicplayer.party.helper.CustomVolleyRequestQueue;
 import musicplayer.party.helper.PartyConstant;
 import musicplayer.party.helper.PersonalizationConstant;
+import musicplayer.party.spotifyService.UserProfile;
 
 /**
  * Created by YLTL on 7/12/16.
@@ -83,6 +84,7 @@ public class RecommendationTask extends AsyncTask<Void, Integer, Void> implement
     @Override
     protected void onPostExecute(Void result) {
 
+        //UserProfile.userCounter++;
     }
 
     @Override
@@ -118,6 +120,8 @@ public class RecommendationTask extends AsyncTask<Void, Integer, Void> implement
                 }
 
                 new AddTrackTask().execute();
+
+                UserProfile.userCounter++;
             }
         } catch (JSONException e) {
             e.printStackTrace();

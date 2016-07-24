@@ -189,14 +189,20 @@ public class SpotifyRetrieveArtists extends ActionBarActivity implements Respons
         /**
          * Store user's selected preference to the guestArtistsPreference array.
          */
+        //String[] artistPreStr = new String[UserProfile.PREFERENCE_LENGTH];
         for (int i = 0; i < 5; i++) {
             if(checkBoxes[i].isChecked())
             {
-                UserProfile.guestArtistsPreferences[selectedPrefCount]= topArtistsID[i];
+                //artistPreStr[selectedPrefCount] = topArtistsID[i];
+                UserProfile.selfArtistsPreferences[selectedPrefCount]= topArtistsID[i];
                 selectedPrefCount++;
                 Log.e("selectednumart","i"+selectedPrefCount);
             }
         }
+        //UserProfile.addArtistList(artistPreStr);
+
+
+
         /**
          * Go to next activity.
          */

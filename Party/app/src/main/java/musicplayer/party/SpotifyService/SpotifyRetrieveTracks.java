@@ -187,15 +187,18 @@ public class SpotifyRetrieveTracks extends ActionBarActivity implements Response
         /**
          * Store user's selected preference to the guestTracksPreference array.
          */
+        //String[] trackPrefStr = new String[UserProfile.PREFERENCE_LENGTH];
         for (int i = 0; i < 5; i++) {
             if(checkBoxes[i].isChecked())
             {
-                UserProfile.guestTracksPreferences[selectedPrefCount]= topTracksID[i];
+                //trackPrefStr[selectedPrefCount] = topTracksID[i];
+                UserProfile.selfTracksPreferences[selectedPrefCount]= topTracksID[i];
                 selectedPrefCount++;
-                Log.e("selectednumtr","i"+selectedPrefCount);
+                Log.e("selectednumtr","i" + selectedPrefCount);
 
             }
         }
+        //UserProfile.addTracksList(trackPrefStr);
         /**
          * Go to next activity
          */

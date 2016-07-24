@@ -48,15 +48,32 @@ public class UpdateTrackParaTask extends AsyncTask<Void, Integer, Void> implemen
             /**
              * Traversing the guestTracksPreferences array and append the track IDs at the end of url to retrieve their metadata
              */
-            for (int i = 0; i < UserProfile.guestTracksPreferences.length; i++) {
-                if (UserProfile.guestTracksPreferences[i] != null) {
-                    url = url + UserProfile.guestTracksPreferences[i] + ",";
-                    /**
-                     * Counting the number of tracks in guestTracksPreferences array
-                     */
+//            for (int i = 0; i < UserProfile.guestTracksPreferences.length; i++) {
+//                if (UserProfile.guestTracksPreferences[i] != null) {
+//                    url = url + UserProfile.guestTracksPreferences[i] + ",";
+//                    /**
+//                     * Counting the number of tracks in guestTracksPreferences array
+//                     */
+//                    numberOfTracks++;
+//                }
+//            }
+
+            Log.e("# # # # # # # # # # ","# # # # # # # # # # # # ");
+            Log.e("# # # # # # # # # # ","# # # # # # # # # # # # ");
+            Log.e("# # # # # # # # # # ","# # # # # # # # # # # # ");
+
+            Log.e(String.valueOf(UserProfile.userCounter), String.valueOf(UserProfile.tracksPreferences.size()));
+            Log.e(String.valueOf(UserProfile.userCounter), String.valueOf(UserProfile.tracksPreferences.size()));
+            Log.e(String.valueOf(UserProfile.userCounter), String.valueOf(UserProfile.tracksPreferences.size()));
+
+
+            for (int i = 0; i < UserProfile.tracksPreferences.get(UserProfile.userCounter).length; i++) {
+                if (UserProfile.tracksPreferences.get(UserProfile.userCounter)[i] != null) {
+                    url = url + UserProfile.tracksPreferences.get(UserProfile.userCounter)[i] + ",";
                     numberOfTracks++;
                 }
             }
+
             /**
              * Appending the extra ',' at the end of url
              */
@@ -129,7 +146,9 @@ public class UpdateTrackParaTask extends AsyncTask<Void, Integer, Void> implemen
             else{
 
                 for(int i = 0; i < numberOfTracks; i++)
-                    PersonalizationConstant.trackIDs.add(i,UserProfile.guestTracksPreferences[i]);
+                    //PersonalizationConstant.trackIDs.add(i,UserProfile.guestTracksPreferences[i]);
+                    PersonalizationConstant.trackIDs.add(i, UserProfile.tracksPreferences.get(UserProfile.userCounter)[i]);
+
 
                 new UpdateArtistParaTask().execute();
                 Log.e("start UpdateArtist task", "UpdateTrack -> UpdateArtists");
