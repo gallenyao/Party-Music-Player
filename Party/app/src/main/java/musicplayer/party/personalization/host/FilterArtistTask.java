@@ -71,6 +71,8 @@ public class FilterArtistTask extends AsyncTask<Void, Integer, Void> implements 
 
 
 
+
+
         url = url.substring(0, url.length()-1);
 
         /**

@@ -1,6 +1,5 @@
 package musicplayer.party;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -131,15 +130,10 @@ public class PartyHome extends AppCompatActivity {
                     }
                 }, 1000, 20000);
 
-
-
         /**
          * Store activity context so that AddTrackTask can start new activity.
          */
         PersonalizationConstant.context = getApplicationContext();
-
-
-
 
     }
 
@@ -262,9 +256,15 @@ public class PartyHome extends AppCompatActivity {
 
             } else if (event instanceof SharePreferences) {
 
-                Log.e("SharePreference done","Host received pref from guest");
+                Log.e("SharePreference done", "Host received pref from guest");
 
                 SharePreferences sharePreferences = (SharePreferences) event;
+
+                for (int i = 0; i < sharePreferences.trackPreference.length; i++) {
+                    if (sharePreferences.trackPreference[i] != null) {
+                        Log.e(i + "th element shared pref", sharePreferences.trackPreference[i]);
+                    }
+                }
 
                 UserProfile.addTracksList(sharePreferences.trackPreference);
                 Log.e("trackPref size ", String.valueOf(UserProfile.tracksPreferences.size()));
@@ -274,10 +274,6 @@ public class PartyHome extends AppCompatActivity {
 
 
                 new HostPersonalizationTask().execute();
-
-                //UserProfile.userCounter++;
-
-
 
                 new Handler().postDelayed(new Runnable() {
                     @Override

@@ -38,10 +38,6 @@ public class UserProfile {
         Log.e("add tracks to host","add tracks to host");
     }
 
-//
-//    public void nextUser () {
-//        userCounter++;
-//    }
 
     /**
      * A flag that used to identify login status.

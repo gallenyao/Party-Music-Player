@@ -32,13 +32,26 @@ public class HostPersonalizationTask extends AsyncTask<Void, Integer, Void> {
          */
         if(UserProfile.userID == null) {
             new RetrieveUserInfoTask().execute();
-            Log.e("start RetrieveUserInfo","Host -> RetrieveUserInfo");
+            Log.e("start RetrieveUserInfo", "Host -> RetrieveUserInfo");
+
+
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            /**
+             * Call the UpdateTrackParameters service to update personalization parameters
+             */
+            new UpdateTrackParaTask().execute();
+
         } else {
             /**
              * Call the UpdateTrackParameters service to update personalization parameters
              */
             new UpdateTrackParaTask().execute();
-            Log.e("start UpdateTrackPara","Host -> UpdateTrackParaTask");
+            Log.e("start UpdateTrackPara", "Host -> UpdateTrackParaTask");
         }
 
     }

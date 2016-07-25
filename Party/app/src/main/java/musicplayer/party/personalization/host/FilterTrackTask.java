@@ -144,7 +144,7 @@ public class FilterTrackTask extends AsyncTask<Void, Integer, Void> implements R
              * If #tracks>3 automatically remove the extra tracks from trackIDS array
              */
             if(PersonalizationConstant.trackIDs.size()>3){
-                for(int i= PersonalizationConstant.trackIDs.size()-1;i >2;i--)
+                for(int i= PersonalizationConstant.trackIDs.size()-1; i>2; i--)
                     PersonalizationConstant.trackIDs.remove(i);
             }
 

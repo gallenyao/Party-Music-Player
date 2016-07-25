@@ -61,13 +61,16 @@ public class UpdateArtistParaTask extends AsyncTask<Void, Integer, Void> impleme
 
 
 
-
+        Log.e("UpdateArtisParaTask-1", String.valueOf(UserProfile.userCounter));
         for (int i = 0; i < UserProfile.artistsPreferences.get(UserProfile.userCounter).length; i++) {
             if (UserProfile.artistsPreferences.get(UserProfile.userCounter)[i] != null) {
+                Log.e(" * * * * * ", UserProfile.artistsPreferences.get(UserProfile.userCounter)[i]);
                 url = url + UserProfile.artistsPreferences.get(UserProfile.userCounter)[i] + ",";
                 numberOfArtists++;
             }
         }
+        Log.e("UpdateArtisParaTask-2", String.valueOf(UserProfile.userCounter));
+        Log.e("UpdateArtistParaTask", url);
 
 
 
@@ -116,7 +119,7 @@ public class UpdateArtistParaTask extends AsyncTask<Void, Integer, Void> impleme
             /**
              * Traverse the JSONArray artists to retrieve the metadata about artists
              */
-            for(int i=0;i<numberOfArtists;i++){
+            for(int i = 0; i < numberOfArtists;i++){
                 PersonalizationConstant.popularity += Integer.parseInt(artists.getJSONObject(i).getString("popularity"));
             }
             PersonalizationConstant.popularity = PersonalizationConstant.popularity/numberOfArtists;
@@ -133,7 +136,6 @@ public class UpdateArtistParaTask extends AsyncTask<Void, Integer, Void> impleme
             }
             else{
                 for(int i = 0; i < numberOfArtists; i++)
-                    //PersonalizationConstant.artistIDs.add(i, UserProfile.guestArtistsPreferences[i]);
                     PersonalizationConstant.artistIDs.add(i, UserProfile.artistsPreferences.get(UserProfile.userCounter)[i]);
 
                 new RecommendationTask().execute();
@@ -144,8 +146,6 @@ public class UpdateArtistParaTask extends AsyncTask<Void, Integer, Void> impleme
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //stopSelf();
-        //Log.e("StopService","Stop UpdateArtistsService");
     }
 
 

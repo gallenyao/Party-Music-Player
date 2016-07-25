@@ -8,10 +8,8 @@ import com.bezirk.middleware.messages.Message;
  * @author Rishabh Gulati
  */
 public class PreferencesAccepted extends Event {
-//    public static final String TOPIC = PreferencesAccepted.class.getCanonicalName();
 
     public static final String TOPIC = PreferencesAccepted.class.getCanonicalName();
-
     public PreferencesAccepted() {
         super(Message.Flag.NOTICE, TOPIC);
     }

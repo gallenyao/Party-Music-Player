@@ -40,7 +40,7 @@ public class PersonalizationConstant {
      */
     public static List<String> artistIDs = new ArrayList<String>();
 
-    public static boolean flag1 = false;
+
 
     public static Context context = null;
 

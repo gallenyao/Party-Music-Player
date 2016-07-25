@@ -13,6 +13,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import musicplayer.party.helper.CustomJSONObjectRequest;
 import musicplayer.party.helper.CustomVolleyRequestQueue;
 import musicplayer.party.helper.PartyConstant;
@@ -57,10 +59,21 @@ public class RecommendationTask extends AsyncTask<Void, Integer, Void> implement
         /**
          * Adding tracks to recommendation url.
          */
-        for(int i=0;i<PersonalizationConstant.trackIDs.size();i++)
+        for(int i = 0; i < PersonalizationConstant.trackIDs.size(); i++)
             url = url + PersonalizationConstant.trackIDs.get(i) + ",";
 
         url = url.substring(0,url.length()-1);
+
+
+        Log.e("recom url", url);
+
+
+        PersonalizationConstant.artistIDs.removeAll(PersonalizationConstant.artistIDs);
+        PersonalizationConstant.trackIDs.removeAll(PersonalizationConstant.trackIDs);
+
+
+
+
 
         /**
          * Create a JSON Request using CustomJSONObject function that takes 4 parameters:-

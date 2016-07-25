@@ -9,8 +9,6 @@ import com.bezirk.middleware.messages.Event;
  */
 public class Join extends Event {
 
-    //public static final String TOPIC = Join.class.getCanonicalName();
-
     public static final String TOPIC = Join.class.getCanonicalName();
 
     public Join() {

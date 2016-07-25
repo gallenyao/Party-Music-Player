@@ -48,19 +48,20 @@ public class UpdateTrackParaTask extends AsyncTask<Void, Integer, Void> implemen
             /**
              * Traversing the guestTracksPreferences array and append the track IDs at the end of url to retrieve their metadata
              */
-//            for (int i = 0; i < UserProfile.guestTracksPreferences.length; i++) {
-//                if (UserProfile.guestTracksPreferences[i] != null) {
-//                    url = url + UserProfile.guestTracksPreferences[i] + ",";
-//                    /**
-//                     * Counting the number of tracks in guestTracksPreferences array
-//                     */
-//                    numberOfTracks++;
-//                }
-//            }
+
 
             Log.e("# # # # # # # # # # ","# # # # # # # # # # # # ");
             Log.e("# # # # # # # # # # ","# # # # # # # # # # # # ");
             Log.e("# # # # # # # # # # ","# # # # # # # # # # # # ");
+
+
+            if (UserProfile.tracksPreferences.size() == 0) {
+                UserProfile.tracksPreferences.add(UserProfile.selfTracksPreferences);
+            }
+
+            if (UserProfile.artistsPreferences.size() == 0) {
+                UserProfile.artistsPreferences.add(UserProfile.selfArtistsPreferences);
+            }
 
             Log.e(String.valueOf(UserProfile.userCounter), String.valueOf(UserProfile.tracksPreferences.size()));
             Log.e(String.valueOf(UserProfile.userCounter), String.valueOf(UserProfile.tracksPreferences.size()));
@@ -157,7 +158,6 @@ public class UpdateTrackParaTask extends AsyncTask<Void, Integer, Void> implemen
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //Log.e("StopService","Stop UpdateTrack AsynTask!!!");
     }
 
 }

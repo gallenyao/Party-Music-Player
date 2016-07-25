@@ -14,8 +14,8 @@ import musicplayer.party.spotifyService.UserProfile;
 public class SharePreferences extends Event {
 
     public static final String TOPIC = SharePreferences.class.getCanonicalName();
-    public static final String[] artistPreference = UserProfile.selfArtistsPreferences;
-    public static final String[] trackPreference = UserProfile.selfTracksPreferences;
+    public String[] artistPreference = UserProfile.selfArtistsPreferences;
+    public String[] trackPreference = UserProfile.selfTracksPreferences;
 
     public SharePreferences() {
         super(Message.Flag.NOTICE, TOPIC);

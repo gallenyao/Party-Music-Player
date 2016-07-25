@@ -9,8 +9,6 @@ import com.bezirk.middleware.messages.Event;
  */
 public class Invite extends Event {
 
-    //public static final String TOPIC = Invite.class.getCanonicalName();
-
     public static final String TOPIC = Invite.class.getCanonicalName();
 
     public Invite() {

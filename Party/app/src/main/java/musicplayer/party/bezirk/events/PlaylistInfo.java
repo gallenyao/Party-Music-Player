@@ -10,10 +10,8 @@ import musicplayer.party.helper.PartyConstant;
  * @author Rishabh Gulati
  */
 public class PlaylistInfo extends Event {
-//    public static final String TOPIC = PlaylistInfo.class.getCanonicalName();
 
     public static final String TOPIC = PlaylistInfo.class.getCanonicalName();
-    //public static final String TOPIC = PartyConstant.partyPlaylistID;
 
     public String ppid = PartyConstant.partyPlaylistID;
 
