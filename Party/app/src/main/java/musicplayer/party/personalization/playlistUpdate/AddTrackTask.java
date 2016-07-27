@@ -18,6 +18,7 @@ import musicplayer.party.helper.CustomVolleyRequestQueue;
 import musicplayer.party.helper.PartyConstant;
 import musicplayer.party.helper.PersonalizationConstant;
 import musicplayer.party.mediaPlayer.PlayTracksActivity;
+import musicplayer.party.spotifyService.InstructionActivity;
 import musicplayer.party.spotifyService.UserProfile;
 
 /**
@@ -78,9 +79,9 @@ public class AddTrackTask extends AsyncTask<Void, Integer, Void> implements Resp
     @Override
     protected void onPostExecute(Void result) {
 
-//        Intent intent_name = new Intent(mContext, PlayTracksActivity.class);
-//        intent_name.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        mContext.startActivity(intent_name);
+        Intent intent_name = new Intent(mContext, PlayTracksActivity.class);
+        intent_name.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent_name);
     }
 
     @Override
@@ -97,6 +98,7 @@ public class AddTrackTask extends AsyncTask<Void, Integer, Void> implements Resp
         try {
             String id = jsonresponse.getString("snapshot_id"); // Check if the tracks were successfully added
             Log.e("addTrack_ID", id);
+
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -2,6 +2,9 @@ package musicplayer.party.bezirk.events;
 
 import com.bezirk.middleware.messages.Event;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import musicplayer.party.helper.PartyConstant;
 
 /**
@@ -13,9 +16,13 @@ public class PlaylistInfo extends Event {
 
     public static final String TOPIC = PlaylistInfo.class.getCanonicalName();
 
-    public String ppid = PartyConstant.partyPlaylistID;
+    public String ppid;
+
+    public List<String> sharedPlaylist = new ArrayList<>();
 
     public PlaylistInfo() {
         super(Flag.NOTICE, TOPIC);
+        ppid = PartyConstant.partyPlaylistID;
+        sharedPlaylist = PartyConstant.partyPlaylistTracksName;
     }
 }

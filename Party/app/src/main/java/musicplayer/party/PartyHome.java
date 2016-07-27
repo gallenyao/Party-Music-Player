@@ -1,7 +1,9 @@
 package musicplayer.party;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.BoolRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +25,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import musicplayer.party.bezirk.BezirkActivity;
 import musicplayer.party.bezirk.events.End;
 import musicplayer.party.bezirk.events.IdentifyHost;
 import musicplayer.party.bezirk.events.Invite;
@@ -49,6 +52,8 @@ import musicplayer.party.spotifyService.UserProfile;
  */
 public class PartyHome extends AppCompatActivity {
 
+    public final static String EXTRA_MESSAGE = "isGuest";
+
     /**
      * Button for subscribe roles.
      */
@@ -63,6 +68,10 @@ public class PartyHome extends AppCompatActivity {
     private boolean isGuest = false;
 
     private boolean joined = false;
+
+    public boolean guestOrNot() {
+        return isGuest;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +173,15 @@ public class PartyHome extends AppCompatActivity {
                 PlaylistInfo playlistInfo = (PlaylistInfo) event;
                 Log.e("Receive playlistID: ", playlistInfo.ppid);
                 PartyConstant.partyPlaylistID = playlistInfo.ppid;
+                PartyConstant.partyPlaylistTracksName = playlistInfo.sharedPlaylist;    // get the current playlist from host.
+
+//                Intent intent_name = new Intent(getApplicationContext(), PlayTracksActivity.class);
+//                intent_name.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                getApplicationContext().startActivity(intent_name);
+
+                Intent intent = new Intent(PartyHome.this, PlayTracksActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, isGuest);
+                startActivity(intent);
 
                 /**
                  * Try to start the playing track activity.
@@ -171,12 +189,16 @@ public class PartyHome extends AppCompatActivity {
                 //Intent intent_name = new Intent(PersonalizationConstant.context, PlayTracksActivity.class);
                 //intent_name.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 //PersonalizationConstant.context.startActivity(intent_name);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        bezirk.sendEvent(zirkEndPoint, new SharePreferences());
-                    }
-                }, 500);
+                if(!joined) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            bezirk.sendEvent(zirkEndPoint, new SharePreferences());
+                        }
+                    }, 500);
+                }
+                joined = true;
+
             } else if (event instanceof PreferencesAccepted) {
                 //Log.e("Invite mes received ", "invite");
                 PreferencesAccepted preferencesAccepted = (PreferencesAccepted) event;
@@ -253,7 +275,6 @@ public class PartyHome extends AppCompatActivity {
 
                 joined = true;
 
-
             } else if (event instanceof SharePreferences) {
 
                 Log.e("SharePreference done", "Host received pref from guest");
@@ -266,6 +287,7 @@ public class PartyHome extends AppCompatActivity {
                     }
                 }
 
+//                UserProfile.testingIncrementUserCounter();
                 UserProfile.addTracksList(sharePreferences.trackPreference);
                 Log.e("trackPref size ", String.valueOf(UserProfile.tracksPreferences.size()));
 
@@ -281,6 +303,32 @@ public class PartyHome extends AppCompatActivity {
                         bezirk.sendEvent(zirkEndPoint, new PreferencesAccepted());
                     }
                 }, 500);
+
+
+
+
+                new Timer().scheduleAtFixedRate(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        bezirk.sendEvent(zirkEndPoint, new PlaylistInfo());
+//                                            bezirk.sendEvent(new IdentifyHost());
+                                    }
+                                });
+                            }
+                        }, 1000, 20000);
+
+
+
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        bezirk.sendEvent(zirkEndPoint, new PlaylistInfo());
+//                    }
+//                }, 500);
             }
         }
 

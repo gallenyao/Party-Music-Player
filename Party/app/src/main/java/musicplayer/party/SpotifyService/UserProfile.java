@@ -28,6 +28,10 @@ public class UserProfile {
     public static ArrayList<String[]> tracksPreferences = new ArrayList<>();
     public static int userCounter = 0;
 
+    public static void testingIncrementUserCounter () {
+        userCounter++;
+    }
+
     public static void addArtistList (String[] artistPrefStr) {
         artistsPreferences.add(artistPrefStr);
         Log.e("add artists to host","add artists to host");

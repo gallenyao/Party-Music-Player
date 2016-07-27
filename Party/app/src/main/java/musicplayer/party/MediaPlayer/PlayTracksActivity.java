@@ -1,5 +1,6 @@
 package musicplayer.party.mediaPlayer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,27 +12,50 @@ import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 
+import musicplayer.party.MainActivity;
+import musicplayer.party.PartyHome;
 import musicplayer.party.R;
 import musicplayer.party.helper.PartyConstant;
 
 public class PlayTracksActivity extends AppCompatActivity implements ConnectionStateCallback, PlayerNotificationCallback {
 
     private Button resumeButton;
+    private Button pauseButton;
+    private Button playButton;
+    private Button skipButton;
     private ListView playlist;
+    private Boolean isGuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_tracks);
         resumeButton = (Button) findViewById(R.id.resume);
+        pauseButton = (Button) findViewById(R.id.pause);
+        playButton = (Button) findViewById(R.id.play);
+        skipButton = (Button) findViewById(R.id.next);
         playlist = (ListView) findViewById(R.id.playlist);
 
+        Intent intent = getIntent();
+        this.isGuest = intent.getBooleanExtra(PartyHome.EXTRA_MESSAGE, false);
 
         // Create The Adapter with passing ArrayList as 3rd parameter
         ArrayAdapter<String> arrayAdapter =
                 new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, PartyConstant.partyPlaylistTracksName );
         // Set The Adapter
         playlist.setAdapter(arrayAdapter);
+
+        if (isGuest) {
+            resumeButton.setVisibility(View.INVISIBLE);
+            pauseButton.setVisibility(View.INVISIBLE);
+            playButton.setVisibility(View.INVISIBLE);
+            skipButton.setVisibility(View.INVISIBLE);
+
+            resumeButton.setClickable(false);
+            pauseButton.setClickable(false);
+            playButton.setClickable(false);
+            skipButton.setClickable(false);
+        }
 
     }
 
