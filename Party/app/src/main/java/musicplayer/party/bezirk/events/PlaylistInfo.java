@@ -10,7 +10,7 @@ import musicplayer.party.helper.PartyConstant;
 /**
  * This event is part of the {@link musicplayer.party.bezirk.protocols.GuestRole}. Used by host of the party to send playlist information to guests.
  *
- * @author Rishabh Gulati
+ * @author Litianlong Yao
  */
 public class PlaylistInfo extends Event {
 

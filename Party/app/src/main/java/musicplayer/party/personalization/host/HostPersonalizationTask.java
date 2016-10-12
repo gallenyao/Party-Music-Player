@@ -3,6 +3,7 @@ package musicplayer.party.personalization.host;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import musicplayer.party.helper.PersonalizationConstant;
 import musicplayer.party.spotifyService.RetrieveUserInfoTask;
 import musicplayer.party.spotifyService.UserProfile;
 
@@ -27,6 +28,9 @@ public class HostPersonalizationTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected void onPostExecute(Void result) {
+
+        PersonalizationConstant.startTime = System.currentTimeMillis();
+        Log.e("Personalization begin: ", String.valueOf(PersonalizationConstant.startTime));
         /**
          * create playlist_id on Spotify if not created
          */
@@ -36,7 +40,7 @@ public class HostPersonalizationTask extends AsyncTask<Void, Integer, Void> {
 
 
             try {
-                Thread.sleep(10000);
+                Thread.sleep(6000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

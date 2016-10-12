@@ -9,7 +9,7 @@ import musicplayer.party.spotifyService.UserProfile;
 /**
  * This event is part of the {@link musicplayer.party.bezirk.protocols.HostRole}. Used by guests of the party to share their music preferences with the host.
  *
- * @author Rishabh Gulati
+ * @author Litianlong Yao
  */
 public class SharePreferences extends Event {
 

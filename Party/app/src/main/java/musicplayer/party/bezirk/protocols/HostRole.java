@@ -7,7 +7,7 @@ import musicplayer.party.bezirk.events.Join;
 import musicplayer.party.bezirk.events.SharePreferences;
 
 /**
- * @author Rishabh Gulati
+ * @author Litianlong Yao
  */
 public class HostRole extends ProtocolRole {
     private static final String roleName = "Host Role";

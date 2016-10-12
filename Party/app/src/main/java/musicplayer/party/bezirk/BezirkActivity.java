@@ -36,7 +36,7 @@ import musicplayer.party.bezirk.protocols.GuestRole;
 import musicplayer.party.bezirk.protocols.HostRole;
 
 /**
- * @author Rishabh Gulati
+ * @author Litianlong Yao
  */
 public class BezirkActivity extends AppCompatActivity {
     private Button hostButton;

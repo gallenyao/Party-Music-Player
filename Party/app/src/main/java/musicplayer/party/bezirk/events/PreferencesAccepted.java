@@ -5,7 +5,7 @@ import com.bezirk.middleware.messages.Message;
 
 /**
  * This event is part of the {@link musicplayer.party.bezirk.protocols.GuestRole}. Used by host of the party to indicate preferences shared using {@link SharePreferences} are accepted
- * @author Rishabh Gulati
+ * @author Litianlong Yao
  */
 public class PreferencesAccepted extends Event {
 

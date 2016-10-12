@@ -5,7 +5,7 @@ import com.bezirk.middleware.messages.Event;
 /**
  * This event is part of the {@link musicplayer.party.bezirk.protocols.GuestRole}. Used by guest's of the party to find the party/party-host
  *
- * @author Rishabh Gulati
+ * @author Litianlong Yao
  */
 public class Invite extends Event {
 

@@ -48,6 +48,7 @@ public class AddTrackTask extends AsyncTask<Void, Integer, Void> implements Resp
         mQueue = CustomVolleyRequestQueue.getInstance(this.mContext).getRequestQueue();
         String url = "https://api.spotify.com/v1/users/"+ UserProfile.userID +"/playlists"+ "/" + PartyConstant.partyPlaylistID + "/tracks?uris=" ; // Spotify web API url to be called to add tracks
 
+        //String url = "https://api.spotify.com/v1/users/"+ " ad " +"/playlists"+ "/" + PartyConstant.partyPlaylistID + "/tracks?uris=" ;
         /**
          * Parsing the partyPlaylistTracks array to add tracks to url
          */
@@ -78,6 +79,13 @@ public class AddTrackTask extends AsyncTask<Void, Integer, Void> implements Resp
 
     @Override
     protected void onPostExecute(Void result) {
+
+        //Log.e("start time: ", String.valueOf(PersonalizationConstant.startTime));
+        PersonalizationConstant.endTime = System.currentTimeMillis();
+        Log.e("Personalization end: ", String.valueOf(PersonalizationConstant.endTime));
+
+        long duration = PersonalizationConstant.endTime - PersonalizationConstant.startTime;
+        Log.e("duration", String.valueOf(duration) + "ms");
 
         Intent intent_name = new Intent(mContext, PlayTracksActivity.class);
         intent_name.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

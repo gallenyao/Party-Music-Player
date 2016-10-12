@@ -8,7 +8,7 @@ import musicplayer.party.helper.PersonalizationConstant;
 /**
  * This event is part of the {@link musicplayer.party.bezirk.protocols.HostRole}. Used by guest's of the party to find the party/party-host
  *
- * @author Rishabh Gulati
+ * @author Litianlong Yao
  */
 public class IdentifyHost extends Event {
 

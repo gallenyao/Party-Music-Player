@@ -5,7 +5,7 @@ import com.bezirk.middleware.messages.Event;
 /**
  * This event is part of the {@link musicplayer.party.bezirk.protocols.HostRole}. Used by guest's of the party to accept the invite for the party issue by the Host using {@link Invite}
  *
- * @author Rishabh Gulati
+ * @author Litianlong Yao
  */
 public class Join extends Event {
 

@@ -10,44 +10,11 @@
     tools:context=".mediaPlayer.PlayTracksActivity"
     android:visibility="visible">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/play"
-        android:onClick="play"
-        android:background="@android:drawable/ic_media_play"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="pause"
-        android:id="@+id/pause"
-        android:background="@android:drawable/ic_media_pause"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:id="@+id/resume"
-        android:onClick="resume"
-        android:background="@android:drawable/ic_media_play"
-        android:layout_alignTop="@+id/pause"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/next"
-        android:onClick="next"
-        android:background="@android:drawable/ic_media_next"
-        android:layout_alignTop="@+id/play"
-        android:layout_alignEnd="@+id/playlist" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="400dp"
@@ -55,5 +22,80 @@
         android:choiceMode="none"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#d3e8fc"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_alignParentBottom="true"
+        android:weightSum="2">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/play"
+                android:onClick="play"
+                android:background="@drawable/play_icon"
+                style="?android:attr/buttonStyleSmall" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:onClick="pause"
+                android:id="@+id/pause"
+                android:background="@drawable/pause_icon"
+                style="?android:attr/buttonStyleSmall" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:id="@+id/resume"
+                android:onClick="resume"
+                android:background="@drawable/play_icon"
+                style="?android:attr/buttonStyleSmall" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/next"
+            android:onClick="next"
+            android:layout_gravity="center"
+            android:background="@drawable/skip_icon" />
+
+
+    </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+
+
 
 </RelativeLayout>

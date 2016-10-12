@@ -8,7 +8,7 @@ import musicplayer.party.bezirk.events.PlaylistInfo;
 import musicplayer.party.bezirk.events.PreferencesAccepted;
 
 /**
- * @author Rishabh Gulati
+ * @author Litianlong Yao
  */
 public class GuestRole extends ProtocolRole {
     private static final String roleName = "Guest role";

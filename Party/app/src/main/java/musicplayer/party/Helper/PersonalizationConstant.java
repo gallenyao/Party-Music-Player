@@ -40,6 +40,9 @@ public class PersonalizationConstant {
      */
     public static List<String> artistIDs = new ArrayList<String>();
 
+    public static long startTime;
+    public static long endTime;
+
 
 
     public static Context context = null;

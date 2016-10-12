@@ -62,16 +62,21 @@ public class PlayTracksActivity extends AppCompatActivity implements ConnectionS
     public void play(View view){
 
         PartyConstant.mPlayer.play(PartyConstant.partyPlaylistTracks);
+        playButton.setVisibility(View.INVISIBLE);
+        pauseButton.setVisibility(View.VISIBLE);
     }
 
     public void pause(View view){
         PartyConstant.mPlayer.pause();
+        pauseButton.setVisibility(View.INVISIBLE);
         resumeButton.setVisibility(View.VISIBLE);
+
     }
 
     public void resume(View view){
         PartyConstant.mPlayer.resume();
         resumeButton.setVisibility(View.INVISIBLE);
+        pauseButton.setVisibility(View.VISIBLE);
     }
 
     public void next(View view){
